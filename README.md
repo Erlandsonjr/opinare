@@ -4,7 +4,7 @@ MVP acadêmico de análise de sentimentos em português brasileiro, desenvolvido
 
 **Importe comentários -> classifique -> salve -> consulte o painel.**
 
-O primeiro modelo já foi treinado em dados reais. O painel mostra positivos, negativos e neutros, evolução por dia, comentários, busca e filtros. A área **Modelo e metodologia** apresenta as métricas reais e a matriz de confusão. A importação e o painel funcionam localmente, sem contas ou serviços pagos.
+O classificador ativo é um Transformer já treinado para sentimentos em português. O baseline treinado pelo projeto foi preservado para comparação. O painel mostra positivos, negativos e neutros, evolução por dia, comentários, busca e filtros. A área **Modelo e metodologia** apresenta as métricas da checagem sintética e a matriz de confusão. A importação e o painel funcionam localmente, sem contas ou serviços pagos.
 
 ## Usar agora no Windows
 
@@ -29,15 +29,16 @@ Pré-requisitos: Python 3.11 a 3.14, [uv](https://docs.astral.sh/uv/getting-star
 .\iniciar.ps1
 ```
 
-A preparação baixa as dependências e o recorte português do UMSAB, treina o modelo e compila a interface. Requer internet nessa etapa. Depois, a aplicação e as fontes do painel funcionam sem internet. O modelo e os dados brutos não são incluídos no Git; a preparação os recria.
+A preparação instala as dependências, treina o baseline no recorte português do UMSAB, baixa uma versão fixada do checkpoint externo e gera a comparação funcional, além de compilar a interface. O checkpoint tem aproximadamente 540 MB. Requer internet nessa etapa. Depois, a aplicação e as fontes do painel funcionam sem internet. O modelo e os dados brutos não são incluídos no Git; a preparação os recria.
 
-Para refazer o treinamento: `.\preparar.ps1 -RecriarModelo`. Reinicie o servidor após trocar o modelo.
+Para refazer o treinamento do baseline: `.\preparar.ps1 -RecriarModelo`. Reinicie o servidor após trocar o modelo.
 
 Em Linux/macOS, execute na raiz:
 
 ```sh
 uv sync --frozen
 uv run python -m experiments.train
+uv run python -m experiments.prepare_transformer
 npm ci --prefix frontend
 npm run build --prefix frontend
 uv run uvicorn backend.app:app --host 127.0.0.1 --port 8000
@@ -70,7 +71,19 @@ Os filtros afetam os indicadores, o gráfico e a listagem. Datas ausentes ficam 
 
 Evite nomes, contatos e outras informações pessoais desnecessárias nos textos enviados.
 
-## Modelo e resultados iniciais
+## Modelo ativo e comparação
+
+O modelo ativo é `pysentimiento/bertweet-pt-sentiment`, checkpoint externo fixado na revisão `726612815d49447cbfe3f55bbfc2993c1f5fad10`. Executa localmente em CPU, com pesos safetensors e hashes verificados, sem enviar comentários a serviços externos. Não foi treinado nem ajustado com os CSVs demonstrativos ou com a amostra de controle do projeto.
+
+Na mesma amostra funcional de **30 frases sintéticas novas com rótulos propostos pelo assistente Codex**, o baseline acertou **18/30** e o Transformer **29/30**. F1 macro: **0,5979** e **0,9666**, respectivamente. A amostra foi criada após observar falhas do baseline, sem revisão humana, e não é cega. É uma checagem funcional pequena, não uma estimativa de acurácia comercial. As frases ficam em `data/evaluation/checagem_sentimentos.json`, e o relatório completo em `reports/transformer_functional_check.json`.
+
+A preparação usa a rotina de português do pysentimiento, fixada no código com sua licença original para uso não comercial e pesquisa científica. A normalização interna inglesa do tokenizador está desativada. A substituição legada de caracteres é desativada para preservar emojis compostos antes de sua conversão para português.
+
+O checkpoint foi ajustado em dados relacionados ao TweetSentBR. Portanto, métricas calculadas sobre UMSAB poderiam ter sobreposição com seus dados de treinamento e não seriam uma comparação independente. Nesta atualização, não foi calculado um novo resultado no teste UMSAB. A avaliação científica independente continua pendente.
+
+A interface mostra explicitamente que as métricas atuais são de uma checagem sintética. Textos longos são divididos em janelas de tokens; todas as partes participam da previsão por agregação. Isso evita descartar silenciosamente o final de um texto, mas ainda pode diluir opiniões curtas em textos extensos.
+
+### Baseline inicial preservado
 
 - **Modelo:** TF-IDF de palavras (1–2) e caracteres (3–5), seguido de regressão logística, com parâmetros fixos e semente 42.
 - **Dados:** UMSAB, recorte português derivado de SentiBR/TweetSentBR, disponibilizado pelos pesquisadores do XLM-T.
@@ -90,9 +103,21 @@ O conjunto de teste não é utilizado para ajustar o modelo. Quando o procedimen
 .\.venv\Scripts\python.exe -m experiments.train --test
 ```
 
-Esse comando gera `reports/baseline_test.json`; não deve ser usado durante ajustes iterativos. A primeira implementação ainda **não realizou a comparação com Transformer**, prevista na proposta técnica. Isso permanece como próximo marco científico.
+Esse comando avalia somente o baseline e gera `reports/baseline_test.json`; não deve ser usado durante ajustes iterativos. A comparação funcional com Transformer foi realizada. A comparação científica em dados reais independentes permanece como próximo marco.
+
+### Atualizar resultados já importados
+
+Trocar o modelo não muda automaticamente classificações históricas. Para recalculá-las, encerre o servidor e execute:
+
+```powershell
+.\.venv\Scripts\python.exe -m experiments.reclassify
+```
+
+O comando cria uma cópia SQLite em `var/backups/`, calcula todas as previsões antes de escrever e salva classes e versões em uma transação única. Preserva IDs, textos, datas, fontes e identidade dos arquivos. Se a base mudar durante a análise, cancela a atualização. Se houver uma falha, os resultados anteriores são preservados. Reinicie o servidor depois.
 
 ### Fontes e uso dos dados
+
+- [Checkpoint português de sentimentos](https://huggingface.co/pysentimiento/bertweet-pt-sentiment) e [projeto pysentimiento](https://github.com/pysentimiento/pysentimiento). O modelo externo mantém as condições de uso e a atribuição de seus autores. Os pesos não são incluídos no Git.
 
 - [Repositório XLM-T / UMSAB](https://github.com/cardiffnlp/xlm-t), versão `874214d64d96599eb869a033c22ec2cc57d19256`.
 - Barbieri, Espinosa Anke e Camacho-Collados (2022). [XLM-T: Multilingual Language Models in Twitter for Sentiment Analysis and Beyond](https://aclanthology.org/2022.lrec-1.27/).
@@ -135,7 +160,7 @@ docs/          Planejamento, progresso e roteiro de apresentação
 ## Próximas entregas
 
 1. Alinhar o recorte com o professor e discutir a contribuição para pequenos negócios locais.
-2. Comparar o baseline com um Transformer sob condições documentadas e comparáveis.
+2. Complementar a comparação funcional com avaliação científica em dados reais independentes.
 3. Analisar erros e conversar com potenciais usuários; não há validação de mercado realizada.
 4. Consolidar metodologia, resultados e limitações no artigo.
 5. Estabilizar para a apresentação de 12/11 e a P2 de 19/11, conforme o cronograma fornecido.

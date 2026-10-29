@@ -1,0 +1,222 @@
+{
+  "model_kind": "pretrained_transformer",
+  "model_id": "bertweet-pt-145b5ca2c088",
+  "model_name": "Transformer em português · BERTweet",
+  "dataset": "Checagem funcional · 30 frases sintéticas",
+  "source_url": "https://huggingface.co/pysentimiento/bertweet-pt-sentiment",
+  "source_revision": "726612815d49447cbfe3f55bbfc2993c1f5fad10",
+  "evaluation_split": "synthetic_functional_check",
+  "evaluation_note": "Checagem funcional com frases sintéticas novas. Estes números ajudam a comparar as versões, mas não representam desempenho comprovado em comentários reais.",
+  "model_description": "Checkpoint externo já treinado para sentimentos em português, executado neste computador. Nenhum comentário importado ou de demonstração foi usado para treinar ou ajustar o modelo. Textos longos são divididos em trechos e todas as partes entram na classificação.",
+  "data_note": "A mesma amostra de frases e rótulos propostos pelo assistente Codex foi apresentada ao baseline e ao Transformer, sem ajuste de pesos ou busca de parâmetros. A amostra foi criada após observar erros do baseline; não é cega nem revisada por humanos. O checkpoint externo usa TweetSentBR; uma avaliação em UMSAB poderia ter sobreposição com seus dados de treinamento, por isso não foi tratada como teste independente.",
+  "test_evaluated": false,
+  "samples": {
+    "train": null,
+    "validation": 30,
+    "test_reserved": 870
+  },
+  "metrics": {
+    "accuracy": 0.9666666666666667,
+    "f1_macro": 0.9665831244778613,
+    "classification_report": {
+      "negativo": {
+        "precision": 1.0,
+        "recall": 0.9,
+        "f1-score": 0.9473684210526315,
+        "support": 10.0
+      },
+      "neutro": {
+        "precision": 0.9090909090909091,
+        "recall": 1.0,
+        "f1-score": 0.9523809523809523,
+        "support": 10.0
+      },
+      "positivo": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 10.0
+      },
+      "accuracy": 0.9666666666666667,
+      "macro avg": {
+        "precision": 0.9696969696969697,
+        "recall": 0.9666666666666667,
+        "f1-score": 0.9665831244778613,
+        "support": 30.0
+      },
+      "weighted avg": {
+        "precision": 0.9696969696969696,
+        "recall": 0.9666666666666667,
+        "f1-score": 0.9665831244778613,
+        "support": 30.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        9,
+        1,
+        0
+      ],
+      [
+        0,
+        10,
+        0
+      ],
+      [
+        0,
+        0,
+        10
+      ]
+    ],
+    "label_order": [
+      "negativo",
+      "neutro",
+      "positivo"
+    ]
+  },
+  "baseline_model_id": "tfidf-logreg-umsab-pt-7c73a5308862",
+  "baseline_metrics_same_sample": {
+    "accuracy": 0.6,
+    "f1_macro": 0.5978672170622635,
+    "classification_report": {
+      "negativo": {
+        "precision": 0.5714285714285714,
+        "recall": 0.8,
+        "f1-score": 0.6666666666666666,
+        "support": 10.0
+      },
+      "neutro": {
+        "precision": 0.4444444444444444,
+        "recall": 0.4,
+        "f1-score": 0.42105263157894735,
+        "support": 10.0
+      },
+      "positivo": {
+        "precision": 0.8571428571428571,
+        "recall": 0.6,
+        "f1-score": 0.7058823529411765,
+        "support": 10.0
+      },
+      "accuracy": 0.6,
+      "macro avg": {
+        "precision": 0.6243386243386243,
+        "recall": 0.6000000000000001,
+        "f1-score": 0.5978672170622635,
+        "support": 30.0
+      },
+      "weighted avg": {
+        "precision": 0.6243386243386243,
+        "recall": 0.6,
+        "f1-score": 0.5978672170622635,
+        "support": 30.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        8,
+        2,
+        0
+      ],
+      [
+        5,
+        4,
+        1
+      ],
+      [
+        1,
+        3,
+        6
+      ]
+    ],
+    "label_order": [
+      "negativo",
+      "neutro",
+      "positivo"
+    ]
+  },
+  "baseline_umsab_validation": {
+    "accuracy": 0.5758513931888545,
+    "f1_macro": 0.5777552419260462,
+    "classification_report": {
+      "negativo": {
+        "precision": 0.6057692307692307,
+        "recall": 0.5833333333333334,
+        "f1-score": 0.5943396226415094,
+        "support": 108.0
+      },
+      "neutro": {
+        "precision": 0.4745762711864407,
+        "recall": 0.5233644859813084,
+        "f1-score": 0.49777777777777776,
+        "support": 107.0
+      },
+      "positivo": {
+        "precision": 0.6633663366336634,
+        "recall": 0.6203703703703703,
+        "f1-score": 0.6411483253588517,
+        "support": 108.0
+      },
+      "accuracy": 0.5758513931888545,
+      "macro avg": {
+        "precision": 0.5812372795297782,
+        "recall": 0.5756893965616707,
+        "f1-score": 0.5777552419260462,
+        "support": 323.0
+      },
+      "weighted avg": {
+        "precision": 0.5815674993698505,
+        "recall": 0.5758513931888545,
+        "f1-score": 0.5780028501741834,
+        "support": 323.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        63,
+        34,
+        11
+      ],
+      [
+        28,
+        56,
+        23
+      ],
+      [
+        13,
+        28,
+        67
+      ]
+    ],
+    "label_order": [
+      "negativo",
+      "neutro",
+      "positivo"
+    ]
+  },
+  "check_sha256": "000af568bf81edd0ec1088a7e69b04f5ef1a772a3eeaed7dd6f3f5ca50e03391",
+  "check_authorship": {
+    "author": "Codex (assistente de IA)",
+    "human_reviewed": false,
+    "blind": false,
+    "context": "Frases e rótulos criados durante esta melhoria após observar falhas do baseline; exemplos mantidos sem seleção posterior por resultado."
+  },
+  "evaluated_at": "2026-10-29T04:13:16.183716+00:00",
+  "inference_seconds": 1.110000000000582,
+  "files_sha256": {
+    "config.json": "7f0b6fbd123333201c8a60db66c159ad204e236bccfd2c1184df70c70a4fda73",
+    "tokenizer_config.json": "b5c75a92c5ffb7276ec8e9ecff387d631faddb7be75a296e35c08979004e1400",
+    "special_tokens_map.json": "d05497f1da52c5e09554c0cd874037a083e1dc1b9cfd48034d1c717f1afc07a7",
+    "added_tokens.json": "73912929ac0f567224032a57d3b3e6a54613afcdc851aba46c3059b4d4ef5254",
+    "vocab.txt": "fb6b15bc5d77bef93b8ddbd86e32bda786d4394029b2a9a1d060edb58a7890f1",
+    "bpe.codes": "398a63a3ea4137a5a4205e5913cf8e0cccc4dee7a461dc385ea50546a0f543c4",
+    "model.safetensors": "ff666dd48ce086345516ff2e2ee1e38a90235505d1193ed64461cf295875bace"
+  },
+  "limitations": [
+    "A amostra funcional é pequena, sintética e não representa o uso em produção.",
+    "O checkpoint pode ter visto dados relacionados ao UMSAB; não há comparação científica independente nesses dados.",
+    "O teste UMSAB não foi consultado pelo projeto nesta atualização; sua independência para o checkpoint externo não está garantida.",
+    "Ironia, ambiguidade, opiniões mistas e mudanças de domínio ainda podem gerar erros.",
+    "Textos longos são agregados por trechos; uma opinião curta pode ser diluída pelo restante do texto.",
+    "A validação com comentários reais rotulados e a avaliação científica final continuam pendentes."
+  ]
+}

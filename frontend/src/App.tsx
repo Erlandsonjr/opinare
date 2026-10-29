@@ -1159,26 +1159,35 @@ function Methodology({
       </section>
     );
   const metrics = report.metrics;
+  const isTransformer = report.model_kind === "pretrained_transformer";
   return (
     <div className="methodology">
       <div className="demo-banner">
         <FlaskConical size={19} />
         <span>
-          <strong>Avaliação preliminar.</strong> Os números abaixo são da
-          validação.{" "}
-          {report.test_evaluated
-            ? "O teste final já foi consultado; confira o relatório específico."
-            : "O conjunto de teste final permanece reservado."}
+          {report.evaluation_note || (
+            <>
+              <strong>Avaliação preliminar.</strong> Os números abaixo são da
+              validação.{" "}
+              {report.test_evaluated
+                ? "O teste final já foi consultado; confira o relatório específico."
+                : "O conjunto de teste final permanece reservado."}
+            </>
+          )}
         </span>
       </div>
       <div className="panel method-panel">
-        <p className="eyebrow">PRIMEIRO CLASSIFICADOR</p>
+        <p className="eyebrow">CLASSIFICADOR EM USO</p>
         <h2>{report.model_name}</h2>
         <p>
-          Representação por palavras e trechos de caracteres, seguida de um
-          classificador linear nas três classes. O modelo foi treinado em textos
-          reais de redes sociais; os exemplos fictícios do painel não entram nas
-          métricas.
+          {report.model_description || (
+            <>
+              Representação por palavras e trechos de caracteres, seguida de um
+              classificador linear nas três classes. O modelo foi treinado em
+              textos reais de redes sociais; os exemplos fictícios do painel não
+              entram nas métricas.
+            </>
+          )}
         </p>
         <div className="method-stats">
           <div>
@@ -1189,16 +1198,35 @@ function Methodology({
           <div>
             <strong>{percent(metrics.accuracy * 100)}</strong>
             <span>Acurácia</span>
-            <small>Acertos na validação</small>
+            <small>
+              {isTransformer
+                ? "Acertos na checagem sintética"
+                : "Acertos na validação"}
+            </small>
           </div>
           <div>
-            <strong>{number(report.samples.train)}</strong>
-            <span>Textos de treino</span>
+            <strong>
+              {report.samples.train === null
+                ? "Pré-treinado"
+                : number(report.samples.train)}
+            </strong>
+            <span>
+              {isTransformer ? "Checkpoint externo" : "Textos de treino"}
+            </span>
             <small>
-              {number(report.samples.validation)} textos de validação
+              {number(report.samples.validation)}{" "}
+              {isTransformer ? "frases de checagem" : "textos de validação"}
             </small>
           </div>
         </div>
+        {report.baseline_metrics_same_sample && (
+          <p className="small-muted">
+            Na mesma amostra sintética: F1 macro do modelo inicial{" "}
+            {percent(report.baseline_metrics_same_sample.f1_macro * 100)}; do
+            Transformer {percent(metrics.f1_macro * 100)}. Esta comparação
+            funcional não substitui uma avaliação em dados reais independentes.
+          </p>
+        )}
         <h3>Desempenho por classe</h3>
         <div
           className="table-wrap"
@@ -1276,13 +1304,20 @@ function Methodology({
           <div>
             <strong>{report.dataset}</strong>
             <p>
-              Divisões oficiais preservadas, com remoção de duplicados e
-              sobreposição entre treino e validação.{" "}
-              {number(report.samples.test_reserved)} textos de teste reservados.
+              {report.data_note || (
+                <>
+                  Divisões oficiais preservadas, com remoção de duplicados e
+                  sobreposição entre treino e validação.{" "}
+                  {number(report.samples.test_reserved)} textos de teste
+                  reservados.
+                </>
+              )}
             </p>
             <a href={report.source_url} target="_blank" rel="noreferrer">
-              Consultar base de treinamento (abre em nova aba){" "}
-              <ArrowRight size={13} />
+              {isTransformer
+                ? "Consultar fonte do modelo"
+                : "Consultar base de treinamento"}{" "}
+              (abre em nova aba) <ArrowRight size={13} />
             </a>
           </div>
         </div>

@@ -21,12 +21,14 @@ O primeiro MVP usa importação CSV, permitida pelos requisitos. A atualização
 
 Para demonstrar uma nova importação, crie um CSV próprio com duas ou três frases diferentes dos exemplos. Não use dados pessoais. A classificação pode errar: discutir o erro faz parte da apresentação das limitações.
 
-## 3. Evidência científica já disponível
+## 3. Evidência disponível
 
 - Treinamento real com 1.839 textos do recorte português UMSAB.
 - Validação em 323 textos, preservando a divisão oficial e removendo uma sobreposição.
-- F1 macro: 57,8%; acurácia: 57,6%. São resultados de validação, sem promessa de qualidade comercial.
-- Teste final com 870 textos ainda reservado.
+- Baseline: F1 macro 57,8% e acurácia 57,6% na validação UMSAB.
+- Modelo ativo: Transformer externo para português. Em uma amostra separada de 30 frases sintéticas novas, o baseline acertou 18 e o Transformer 29. É uma checagem funcional, sem promessa de acurácia em dados reais.
+- A área de metodologia mostra essa distinção. O checkpoint pode ter visto dados relacionados ao UMSAB; uma comparação científica independente ainda precisa ser planejada.
+- Os 870 textos do teste UMSAB não foram avaliados pelo projeto; sua independência para o checkpoint externo não está garantida.
 - Comandos reproduzíveis, dependências fixadas, fonte versionada e hashes registrados.
 - Os 30 comentários fictícios do painel não foram usados para treinar nem medir o classificador.
 
@@ -34,12 +36,12 @@ Para demonstrar uma nova importação, crie um CSV próprio com duas ou três fr
 
 - Manter importação de CSV como entrada suficiente para o MVP.
 - Confirmar SQLite na demonstração local, simplificando a proposta inicial de PostgreSQL.
-- Avaliar um Transformer na próxima etapa, sem bloquear o funcionamento da aplicação.
+- Confirmar o uso do Transformer externo e definir uma avaliação científica independente para a comparação final.
 - Confirmar o recorte social e a forma de obter uma primeira devolutiva de usuários.
 - Confirmar os marcos do documento: apresentação em 12/11 e P2 em 19/11. O documento descreve 29/10 como orientação para artigos.
 
 ## 5. Situação e próximos passos
 
-O núcleo do software está implementado. A comparação com Transformer, a análise qualitativa de erros, as conversas com usuários e o artigo completo continuam pendentes. Não apresentar essas etapas como concluídas.
+O núcleo do software está implementado. A comparação funcional com Transformer foi implementada. A avaliação científica independente, a análise qualitativa de erros, as conversas com usuários e o artigo completo continuam pendentes. Não apresentar essas etapas como concluídas.
 
 O registro detalhado de verificações desta implementação está em `docs/PROGRESSO.md`.

@@ -22,6 +22,8 @@ if ($RecriarModelo -or -not (Test-Path -LiteralPath 'artifacts/baseline.joblib')
     Write-Host 'Preparando os dados academicos e treinando o modelo...'
     Invoke-Checked { & '.\.venv\Scripts\python.exe' -m experiments.train } 'Falha no treinamento. Confira a conexao e a mensagem acima.'
 }
+Write-Host 'Preparando o classificador de portugues...'
+Invoke-Checked { & '.\.venv\Scripts\python.exe' -m experiments.prepare_transformer } 'Falha ao preparar o Transformer. Confira a conexao e a mensagem acima.'
 Write-Host 'Preparando o painel...'
 Invoke-Checked { npm.cmd ci --prefix frontend } 'Falha ao instalar o painel.'
 Invoke-Checked { npm.cmd run build --prefix frontend } 'Falha ao compilar o painel.'

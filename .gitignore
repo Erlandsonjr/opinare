@@ -12,6 +12,7 @@ data/processed/
 var/
 artifacts/*.joblib
 artifacts/*.tmp
+reports/*.tmp
 output/
 .playwright-cli/
 *.log

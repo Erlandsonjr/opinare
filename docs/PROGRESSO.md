@@ -1,12 +1,12 @@
 # Progresso do MVP
 
-Atualização: 28/10/2026. Primeira versão funcional para a monitoria de 29/10.
+Atualização: 29/10/2026. Versão funcional com melhoria do classificador para a monitoria.
 
 ## Implementado
 
 - Backend Python/FastAPI e painel React/TypeScript/Vite, servidos juntos na versão compilada.
 - Importação CSV UTF-8 com vírgula ou ponto e vírgula; validação completa antes de salvar.
-- Modelo real TF-IDF + regressão logística, com três classes e preparação conservadora dos textos.
+- Transformer pré-treinado para sentimentos em português, executado localmente; baseline TF-IDF + regressão logística preservado para comparação.
 - Persistência SQLite com lote, data de importação, versão do modelo e metadados originais.
 - Importação atômica, bloqueio de arquivos repetidos e deduplicação de comentários idênticos com os mesmos metadados.
 - Resumo por sentimento, proporções, evolução por dia e listagem paginada.
@@ -18,7 +18,17 @@ Atualização: 28/10/2026. Primeira versão funcional para a monitoria de 29/10.
 - Fontes locais; aplicação utilizável sem internet após a preparação.
 - Comandos de preparação, início e verificação no Windows, além de instruções para Linux/macOS.
 
-## Evidência do classificador
+## Melhoria do classificador
+
+O classificador ativo é `bertweet-pt-145b5ca2c088`, baseado no checkpoint `pysentimiento/bertweet-pt-sentiment`, revisão `726612815d49447cbfe3f55bbfc2993c1f5fad10`. A preparação verifica os hashes dos arquivos. A execução usa os pesos locais, sem enviar comentários a um serviço externo. Textos longos são divididos em trechos; todas as partes entram na previsão.
+
+Na mesma checagem funcional de 30 frases sintéticas novas, o baseline acertou **18/30** e o Transformer **29/30**. As frases e os rótulos foram propostos pelo assistente Codex após observar erros do baseline. Não houve ajuste dos pesos com essas frases; a amostra não é cega, não foi revisada por humanos e não mede desempenho em dados reais. Relatório: `reports/transformer_functional_check.json`.
+
+Foram recalculados os 54 comentários fictícios da base local, com 19 classificações alteradas. IDs, textos, datas, fontes e identidade das importações foram comparados ao backup e preservados. O backup anterior à atualização está em `var/backups/opinare-20261029T041833-8aa55c49.sqlite3` e passou na verificação de integridade.
+
+O código de preparação incorporado do pysentimiento mantém sua licença de uso não comercial e pesquisa científica em `backend/vendor/PYSENTIMIENTO_LICENSE.txt`; os pesos permanecem fora do Git. A avaliação científica do Transformer exige dados reais independentes: seu treinamento usa TweetSentBR, com possível sobreposição com UMSAB.
+
+## Evidência histórica do baseline
 
 | Item | Resultado |
 | --- | --- |
@@ -37,7 +47,7 @@ Os textos brutos e o modelo local ficam fora do Git. Não há alegação de lice
 
 ## Verificações executadas
 
-- **36 testes automatizados aprovados**, cobrindo CSV válido/inválido, codificação, datas, limites, duplicados, falha do modelo, rollback do lote, consultas e importações concorrentes, filtros, paginação, reinício da aplicação, limites locais de acesso e dados de treinamento.
+- **51 testes automatizados aprovados**, cobrindo CSV válido/inválido, codificação, datas, limites, duplicados, falha do modelo, rollback do lote, consultas e importações concorrentes, filtros, paginação, reinício da aplicação, limites locais de acesso e dados de treinamento. A melhoria acrescentou inferência real, comparação das duas versões na mesma amostra, preparação de emojis/menções/links, textos longos, verificação do relatório e reclassificação com backup, rollback e recusa de alterações concorrentes.
 - Análise estática Python aprovada.
 - Compilação TypeScript e build Vite aprovados.
 - Instalação reprodutível pelo comando `preparar.ps1` executada com sucesso. O npm informou zero vulnerabilidades conhecidas nessa execução.
@@ -45,16 +55,16 @@ Os textos brutos e o modelo local ficam fora do Git. Não há alegação de lice
 - Layout conferido em larguras de **320, 390, 768, 1440, 1550 e 1920 px**, sem rolagem horizontal da página nos cenários verificados. Também conferidos o diálogo de importação em 320 px e a metodologia em 390 px.
 - Capturas do painel, comentários e metodologia inspecionadas visualmente.
 
-As verificações de navegador usaram uma base local separada, `var/browser-check.sqlite3`. A base de demonstração principal fica em `var/opinare.sqlite3` e não recebeu os registros adicionais dos testes de importação.
+As verificações iniciais de navegador usaram uma base local separada, `var/browser-check.sqlite3`. A melhoria do modelo foi conferida primeiro em cópias da base com 54 comentários e depois aplicada à base principal, `var/opinare.sqlite3`. Os testes automatizados continuam usando bases temporárias.
 
 Limites: verificação em Chromium, sem teste em leitor de tela, Safari ou Firefox. As proteções são adequadas à execução local demonstrada; não foi feita implantação pública nem criada autenticação. Os testes emitiram um aviso de descontinuação da biblioteca de cliente HTTP do ambiente de testes, sem falhas funcionais.
 
 ## Pendências acadêmicas
 
-1. Comparar um Transformer com o baseline, em condições documentadas e comparáveis.
+1. Complementar a comparação funcional já executada com avaliação em dados reais independentes e rótulos revisados por humanos.
 2. Analisar qualitativamente erros, inclusive a diferença entre o domínio de televisão do corpus e comentários empresariais.
 3. Confirmar o recorte de contribuição social com o professor e obter uma primeira devolutiva de potenciais usuários.
 4. Escrever o artigo e consolidar os resultados finais.
 5. Consultar o teste reservado somente quando o procedimento final estiver definido.
 
-O resultado atual é uma demonstração funcional com baseline avaliado. Não é uma validação comercial nem uma medição de desempenho em comentários de empresas.
+O resultado atual é uma demonstração funcional com Transformer e comparação sintética documentada, além da avaliação histórica do baseline. Não é uma validação comercial nem uma medição de desempenho em comentários reais de empresas.

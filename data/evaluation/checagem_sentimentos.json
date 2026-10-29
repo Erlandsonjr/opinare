@@ -1,0 +1,131 @@
+{
+  "purpose": "Checagem funcional sintética. Frases novas e rótulos propostos pelo assistente, sem uso no treinamento ou ajuste. Não estima desempenho em produção.",
+  "examples": [
+    {
+      "text": "O atendimento foi excelente e resolveu minha dúvida com rapidez.",
+      "label": "positivo"
+    },
+    {
+      "text": "Fiquei encantada com a qualidade da compra. Recomendo a loja!",
+      "label": "positivo"
+    },
+    {
+      "text": "Recebi tudo certinho e estou muito contente com o serviço.",
+      "label": "positivo"
+    },
+    {
+      "text": "Não tenho do que reclamar. A experiência foi ótima.",
+      "label": "positivo"
+    },
+    {
+      "text": "O funcionário foi educado e me ajudou bastante. Muito obrigada!",
+      "label": "positivo"
+    },
+    {
+      "text": "Minha encomenda chegou bem embalada e antes do combinado. Adorei.",
+      "label": "positivo"
+    },
+    {
+      "text": "O preço é justo e o produto funciona perfeitamente.",
+      "label": "positivo"
+    },
+    {
+      "text": "Que surpresa boa! O resultado ficou maravilhoso.",
+      "label": "positivo"
+    },
+    {
+      "text": "Gostei muito da organização e do cuidado com os clientes.",
+      "label": "positivo"
+    },
+    {
+      "text": "O suporte teve paciência e solucionou o problema. Estou satisfeita.",
+      "label": "positivo"
+    },
+    {
+      "text": "Não gostei do atendimento e saí bastante irritado.",
+      "label": "negativo"
+    },
+    {
+      "text": "Que experiência péssima. O produto estava horrível.",
+      "label": "negativo"
+    },
+    {
+      "text": "Paguei pela entrega e o pedido não chegou. Estou decepcionada.",
+      "label": "negativo"
+    },
+    {
+      "text": "O aparelho veio quebrado e ninguém respondeu à reclamação.",
+      "label": "negativo"
+    },
+    {
+      "text": "A cobrança estava errada e o atendimento foi grosseiro.",
+      "label": "negativo"
+    },
+    {
+      "text": "O produto é bonito, mas chegou quebrado e não funciona.",
+      "label": "negativo"
+    },
+    {
+      "text": "Não recomendo. A qualidade é ruim e o preço é absurdo.",
+      "label": "negativo"
+    },
+    {
+      "text": "Foi frustrante esperar tanto e receber o item errado.",
+      "label": "negativo"
+    },
+    {
+      "text": "Fiquei insatisfeito com a compra e quero meu dinheiro de volta.",
+      "label": "negativo"
+    },
+    {
+      "text": "O serviço atrasou, a comida veio fria e achei tudo muito ruim.",
+      "label": "negativo"
+    },
+    {
+      "text": "A filial está localizada na rua das Palmeiras, número 180.",
+      "label": "neutro"
+    },
+    {
+      "text": "Qual é o horário de atendimento aos domingos?",
+      "label": "neutro"
+    },
+    {
+      "text": "O código do pedido aparece no recibo enviado por e-mail.",
+      "label": "neutro"
+    },
+    {
+      "text": "O catálogo de dezembro contém livros, revistas e agendas.",
+      "label": "neutro"
+    },
+    {
+      "text": "A retirada das encomendas acontece no balcão do segundo andar.",
+      "label": "neutro"
+    },
+    {
+      "text": "Vocês aceitam pagamento por transferência bancária?",
+      "label": "neutro"
+    },
+    {
+      "text": "O evento começa na quinta-feira, às dezenove horas.",
+      "label": "neutro"
+    },
+    {
+      "text": "Há três tamanhos disponíveis: pequeno, médio e grande.",
+      "label": "neutro"
+    },
+    {
+      "text": "Como faço para consultar a disponibilidade de um título?",
+      "label": "neutro"
+    },
+    {
+      "text": "A próxima reunião da equipe será na terça-feira.",
+      "label": "neutro"
+    }
+  ],
+  "labeling": {
+    "author": "Codex (assistente de IA)",
+    "human_reviewed": false,
+    "blind": false,
+    "context": "Frases e rótulos criados durante esta melhoria após observar falhas do baseline; exemplos mantidos sem seleção posterior por resultado."
+  }
+}
