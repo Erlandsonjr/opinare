@@ -31,21 +31,12 @@ export type ModelInfo = {
   version: string;
   report: null | {
     model_name: string;
-    model_kind?: "pretrained_transformer";
-    evaluation_note?: string;
-    model_description?: string;
-    data_note?: string;
     dataset: string;
     source_url: string;
     model_id: string;
     evaluation_split: string;
     test_evaluated: boolean;
-    samples: {
-      train: number | null;
-      validation: number;
-      test_reserved: number;
-    };
-    baseline_metrics_same_sample?: { accuracy: number; f1_macro: number };
+    samples: { train: number; validation: number; test_reserved: number };
     metrics: {
       accuracy: number;
       f1_macro: number;

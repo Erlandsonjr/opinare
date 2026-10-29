@@ -1,4 +1,3 @@
-import logging
 import re
 import unicodedata
 from pathlib import Path
@@ -8,7 +7,6 @@ import joblib
 ROOT = Path(__file__).resolve().parents[1]
 LABELS = ("negativo", "neutro", "positivo")
 MODEL_PATH = ROOT / "artifacts" / "baseline.joblib"
-logger = logging.getLogger(__name__)
 
 
 def prepare_text(text: str) -> str:
@@ -23,23 +21,14 @@ class ModelUnavailable(Exception):
 
 
 class SentimentClassifier:
-    def __init__(self, path: Path | None = None):
-        self.path = path or MODEL_PATH
+    def __init__(self, path: Path = MODEL_PATH):
+        self.path = path
         self.bundle = None
         self.load_error = None
-        if path is None and (ROOT / "reports" / "transformer_functional_check.json").exists():
-            try:
-                from backend.transformer import load_transformer_bundle
-
-                self.bundle = load_transformer_bundle()
-            except Exception:
-                logger.exception("Falha ao carregar o Transformer local")
-                self.load_error = "O modelo de português não está pronto. Execute preparar.ps1."
-            return
-        if self.path.exists():
+        if path.exists():
             try:
                 # Only the locally trained artifact is loaded; uploads never become model files.
-                self.bundle = joblib.load(self.path)
+                self.bundle = joblib.load(path)
                 if set(self.bundle["pipeline"].classes_) != set(LABELS):
                     raise ValueError("O modelo não contém as três classes esperadas.")
             except Exception:

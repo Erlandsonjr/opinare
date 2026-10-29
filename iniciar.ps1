@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Stop'
 Set-Location -LiteralPath $PSScriptRoot
 $env:PYTHONUTF8 = '1'
-foreach ($requiredPath in @('.venv/Scripts/python.exe', 'artifacts/baseline.joblib', 'var/models/bertweet-pt/model.safetensors', 'reports/transformer_functional_check.json', 'frontend/dist/index.html')) {
+foreach ($requiredPath in @('.venv/Scripts/python.exe', 'artifacts/baseline.joblib', 'frontend/dist/index.html')) {
     if (-not (Test-Path -LiteralPath $requiredPath)) {
         throw 'Execute .\preparar.ps1 antes de iniciar a aplicacao.'
     }
