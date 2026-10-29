@@ -11,6 +11,8 @@ data/raw/
 data/processed/
 var/
 artifacts/*.joblib
+artifacts/*.tmp
 output/
 .playwright-cli/
 *.log
+*.tsbuildinfo

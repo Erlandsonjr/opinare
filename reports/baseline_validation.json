@@ -1,0 +1,175 @@
+{
+  "model_id": "tfidf-logreg-umsab-pt-7c73a5308862",
+  "model_name": "TF-IDF + regressão logística",
+  "dataset": "UMSAB · recorte português (SentiBR / TweetSentBR)",
+  "source_url": "https://github.com/cardiffnlp/xlm-t",
+  "source_revision": "874214d64d96599eb869a033c22ec2cc57d19256",
+  "training_code_sha256": "002a0bcd151129fafe6c05000cbce945b3178c5c249cf0994dc7300bfb4777bb",
+  "evaluated_at": "2026-10-29T00:54:16.358753+00:00",
+  "evaluation_split": "validation",
+  "test_evaluated": false,
+  "seed": 42,
+  "configuration": {
+    "word_ngrams": [
+      1,
+      2
+    ],
+    "char_ngrams": [
+      3,
+      5
+    ],
+    "min_df": 2,
+    "C": 2.0,
+    "class_weight": "balanced",
+    "tuning": "Nenhuma busca de hiperparâmetros"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "scikit_learn": "1.9.1"
+  },
+  "samples": {
+    "train": 1839,
+    "validation": 323,
+    "test_reserved": 870,
+    "train_removed": 0,
+    "validation_removed": 0,
+    "validation_overlap_removed": 1
+  },
+  "class_distribution": {
+    "train": {
+      "negativo": 613,
+      "neutro": 613,
+      "positivo": 613
+    },
+    "validation": {
+      "negativo": 108,
+      "neutro": 107,
+      "positivo": 108
+    }
+  },
+  "metrics": {
+    "accuracy": 0.5758513931888545,
+    "f1_macro": 0.5777552419260462,
+    "classification_report": {
+      "negativo": {
+        "precision": 0.6057692307692307,
+        "recall": 0.5833333333333334,
+        "f1-score": 0.5943396226415094,
+        "support": 108.0
+      },
+      "neutro": {
+        "precision": 0.4745762711864407,
+        "recall": 0.5233644859813084,
+        "f1-score": 0.49777777777777776,
+        "support": 107.0
+      },
+      "positivo": {
+        "precision": 0.6633663366336634,
+        "recall": 0.6203703703703703,
+        "f1-score": 0.6411483253588517,
+        "support": 108.0
+      },
+      "accuracy": 0.5758513931888545,
+      "macro avg": {
+        "precision": 0.5812372795297782,
+        "recall": 0.5756893965616707,
+        "f1-score": 0.5777552419260462,
+        "support": 323.0
+      },
+      "weighted avg": {
+        "precision": 0.5815674993698505,
+        "recall": 0.5758513931888545,
+        "f1-score": 0.5780028501741834,
+        "support": 323.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        63,
+        34,
+        11
+      ],
+      [
+        28,
+        56,
+        23
+      ],
+      [
+        13,
+        28,
+        67
+      ]
+    ],
+    "label_order": [
+      "negativo",
+      "neutro",
+      "positivo"
+    ]
+  },
+  "dummy_metrics": {
+    "accuracy": 0.33436532507739936,
+    "f1_macro": 0.16705336426914152,
+    "classification_report": {
+      "negativo": {
+        "precision": 0.33436532507739936,
+        "recall": 1.0,
+        "f1-score": 0.5011600928074246,
+        "support": 108.0
+      },
+      "neutro": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 107.0
+      },
+      "positivo": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 108.0
+      },
+      "accuracy": 0.33436532507739936,
+      "macro avg": {
+        "precision": 0.11145510835913312,
+        "recall": 0.3333333333333333,
+        "f1-score": 0.16705336426914152,
+        "support": 323.0
+      },
+      "weighted avg": {
+        "precision": 0.11180017061411496,
+        "recall": 0.33436532507739936,
+        "f1-score": 0.16757055734737417,
+        "support": 323.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        108,
+        0,
+        0
+      ],
+      [
+        107,
+        0,
+        0
+      ],
+      [
+        108,
+        0,
+        0
+      ]
+    ],
+    "label_order": [
+      "negativo",
+      "neutro",
+      "positivo"
+    ]
+  },
+  "limitations": [
+    "Resultado preliminar de validação, não avaliação final no teste.",
+    "Textos de redes sociais sobre televisão; desempenho em empresas não foi medido.",
+    "Classes ambíguas, ironia, negação, gírias e domínio novo podem gerar erros.",
+    "Exemplos fictícios do painel não foram usados no treinamento nem nas métricas.",
+    "A comparação com Transformer ainda não foi realizada."
+  ]
+}

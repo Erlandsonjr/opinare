@@ -1,0 +1,32 @@
+{
+  "dataset": "UMSAB / Portuguese (SentiBR / TweetSentBR)",
+  "repository": "https://github.com/cardiffnlp/xlm-t",
+  "revision": "874214d64d96599eb869a033c22ec2cc57d19256",
+  "files": {
+    "train_text.txt": {
+      "sha256": "7d4ef66e226d073e527a2b7164351cf9c26f2297608e872d0c8c586dce9118ac",
+      "lines": 1839
+    },
+    "train_labels.txt": {
+      "sha256": "1225a2d319fe4831e1dcb859a51e21c6a8a40c627f4a18c4e872554c385d23f5",
+      "lines": 1839
+    },
+    "val_text.txt": {
+      "sha256": "4a0ab0ef9ce458524fc97279c5c3fc47562d21312ca90972feb674f8ba0f8af3",
+      "lines": 324
+    },
+    "val_labels.txt": {
+      "sha256": "2728c5af0a67fdb89dfbab4663e5df365c529bb7c513192e829771ebe16aef65",
+      "lines": 324
+    },
+    "test_text.txt": {
+      "sha256": "7509d97cb78f7c9796fe2d6814428febf138e7c4c76285745cc8f05a514b94eb",
+      "lines": 870
+    },
+    "test_labels.txt": {
+      "sha256": "7977cc5b0346f7ddab596fa6655ee7d2fe9f36c77129bfc14f3307d607a91761",
+      "lines": 870
+    }
+  },
+  "usage": "Uso acadêmico local; textos brutos não redistribuídos no repositório."
+}
