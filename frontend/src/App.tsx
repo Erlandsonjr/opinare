@@ -946,9 +946,6 @@ export default function App() {
         </main>
         <footer className="page-footer">
           <span>Opinare · Análise de sentimentos</span>
-          <span>
-            Análise automática é um ponto de partida. O contexto importa.
-          </span>
         </footer>
       </div>
 
