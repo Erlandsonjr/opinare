@@ -238,9 +238,8 @@ export default function App() {
         <div className="workspace">
           <span className="workspace-avatar">O</span>
           <div>
-            Laboratório Opinare<small>Projeto acadêmico</small>
+            Opinare<small>Análise de sentimentos</small>
           </div>
-          <span className="workspace-tag">MVP</span>
         </div>
         <p className="nav-label">ACOMPANHAMENTO</p>
         <nav>
@@ -274,10 +273,6 @@ export default function App() {
               humana.
             </p>
           </div>
-          <div className="local-caption">
-            <span className="status-dot" />
-            Ambiente local<span>v0.1</span>
-          </div>
         </div>
       </aside>
 
@@ -289,10 +284,6 @@ export default function App() {
               {view === "dashboard" ? "Visão geral" : "Modelo e metodologia"}
             </strong>
           </div>
-          <span className="academic-tag">
-            <FlaskConical size={14} />
-            Laboratório de Inovação Social
-          </span>
         </header>
         <main id="main-content">
           <div className="page-heading">
@@ -954,7 +945,7 @@ export default function App() {
           </div>
         </main>
         <footer className="page-footer">
-          <span>Opinare · Laboratório de Inovação Social · iCEV</span>
+          <span>Opinare · Análise de sentimentos</span>
           <span>
             Análise automática é um ponto de partida. O contexto importa.
           </span>
@@ -1293,7 +1284,7 @@ function Methodology({
               {number(report.samples.test_reserved)} textos de teste reservados.
             </p>
             <a href={report.source_url} target="_blank" rel="noreferrer">
-              Consultar fonte dos dados (abre em nova aba){" "}
+              Consultar base de treinamento (abre em nova aba){" "}
               <ArrowRight size={13} />
             </a>
           </div>
