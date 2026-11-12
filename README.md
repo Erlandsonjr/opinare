@@ -22,7 +22,7 @@ Mantenha o terminal aberto durante o uso. Encerre com `Ctrl+C`. Os dados ficam e
 
 ## Preparar em outro computador
 
-Pré-requisitos: Python 3.11 a 3.14, [uv](https://docs.astral.sh/uv/getting-started/installation/) e Node.js LTS com npm. As versões das dependências estão fixadas em `uv.lock` e `frontend/package-lock.json`.
+Pré-requisitos: [uv](https://docs.astral.sh/uv/getting-started/installation/) e Node.js LTS com npm. O uv instala sozinho o Python 3.12 fixado em `.python-version`, exigido pelo PyTorch. As versões das dependências estão fixadas em `uv.lock` e `frontend/package-lock.json`.
 
 ```powershell
 .\preparar.ps1
