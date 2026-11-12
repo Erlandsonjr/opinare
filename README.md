@@ -4,7 +4,7 @@ MVP acadêmico de análise de sentimentos em português brasileiro, desenvolvido
 
 **Importe comentários -> classifique -> salve -> consulte o painel.**
 
-O primeiro modelo já foi treinado em dados reais. O painel mostra positivos, negativos e neutros, evolução por dia, comentários, busca e filtros. A área **Modelo e metodologia** apresenta as métricas reais e a matriz de confusão. A importação e o painel funcionam localmente, sem contas ou serviços pagos.
+O classificador ativo é o **BERTimbau Base ajustado pela equipe** com tweets (UMSAB) e avaliações reais de e-commerce (B2W). Ele foi comparado com um baseline TF-IDF nos mesmos dados, em testes reservados. O painel mostra positivos, negativos e neutros, evolução por dia, comentários, busca e filtros. O botão **Testar uma frase** compara ao vivo o modelo ativo e o baseline, sem salvar nada. A área **Modelo e metodologia** traz a tabela comparativa, as métricas por classe e as matrizes de confusão. Tudo roda localmente, sem contas ou serviços pagos.
 
 ## Usar agora no Windows
 
@@ -87,33 +87,50 @@ Os filtros afetam os indicadores, o gráfico e a listagem. Datas ausentes ficam 
 
 Evite nomes, contatos e outras informações pessoais desnecessárias nos textos enviados.
 
-## Modelo e resultados iniciais
+## Modelos e resultados
 
-- **Modelo:** TF-IDF de palavras (1–2) e caracteres (3–5), seguido de regressão logística, com parâmetros fixos e semente 42.
-- **Dados:** UMSAB, recorte português derivado de SentiBR/TweetSentBR, disponibilizado pelos pesquisadores do XLM-T.
-- **Treino:** 1.839 textos da divisão oficial.
-- **Validação:** 323 textos; removida uma sobreposição com o treino.
-- **F1 macro de validação:** 0,5778.
-- **Acurácia de validação:** 0,5759.
-- **Teste:** 870 textos reservados, sem avaliação nesta primeira entrega.
+Três modelos foram treinados pela equipe e avaliados **uma única vez** nos testes reservados, depois da escolha do modelo:
 
-Esses resultados são preliminares. Não representam desempenho validado para empresas. Os dados têm domínio ligado a programas de televisão, e os exemplos de negócios usados no painel são fictícios. A classe neutra teve maior dificuldade na validação. Ironia, negação, gírias e diferenças de domínio podem produzir erros.
+| Modelo | Treino | UMSAB teste (869): F1 macro / acurácia | B2W teste (1.500): F1 macro / acurácia |
+| --- | --- | --- | --- |
+| Baseline v1: TF-IDF + regressão logística | UMSAB (1.839 tweets) | 0,589 / 0,588 | 0,465 / 0,483 |
+| Baseline combinado: mesmo pipeline | UMSAB + B2W (7.839) | 0,611 / 0,611 | 0,708 / 0,707 |
+| **BERTimbau Base ajustado (ativo)** | UMSAB + B2W (7.839) | **0,709 / 0,709** | **0,750 / 0,750** |
+| Classe majoritária (piso) | — | 0,166 / 0,333 | 0,167 / 0,333 |
 
-As métricas completas, o comparador de classe majoritária, os parâmetros e a matriz de confusão estão em `reports/baseline_validation.json`. A versão da fonte e os hashes dos arquivos estão em `reports/dataset_manifest.json`. O relatório de validação contém somente estatísticas, sem republicar textos do corpus.
+- **Por que o BERTimbau está ativo:** a regra foi definida antes do teste: entre os modelos treinados com os mesmos dados, vence o de maior F1 macro na validação combinada. O BERTimbau teve 0,730 e o baseline combinado, 0,669. O teste confirmou a escolha nos dois conjuntos.
+- **Dados:** UMSAB (tweets sobre TV) mais B2W-Reviews01, com 2.000/300/500 avaliações por classe em treino/validação/teste e semente 42. Do B2W, só o texto e a nota são lidos; as colunas de perfil do avaliador são descartadas. Notas 1–2 viram negativo, 3 vira neutro e 4–5 vira positivo. As divisões são disjuntas por texto normalizado, inclusive entre UMSAB e B2W. Os CSVs de exemplo nunca entram no treino.
+- **BERTimbau:** `neuralmind/bert-base-portuguese-cased`, revisão `94d69c9`, licença MIT. Configuração: comprimento máximo de 128 tokens, taxa de aprendizado 2e-5, 3 épocas, lote efetivo 16 (8 × 2 de acumulação), 10% de aquecimento, decaimento de pesos 0,01 e semente 42. A melhor época foi a 3. O treino levou cerca de 20 minutos numa GTX 1050 Ti (4 GB).
+- **Preparação do texto:** conservadora. Mantém acentos, pontuação, negações e emojis; troca apenas links e @usuários.
+- **Inferência:** na CPU, carrega em cerca de 9 s e classifica 1.000 comentários curtos em cerca de 14 s (medido neste computador, i7-8750H). Textos acima de 128 tokens são divididos em janelas, sem corte.
 
-O conjunto de teste não é utilizado para ajustar o modelo. Quando o procedimento final estiver definido, a avaliação reservada pode ser executada uma vez com:
+Limitações: a classe neutra é a mais difícil (F1 de cerca de 0,64 nos dois testes) e, no B2W, a nota 3 é um rótulo ruidoso. Ironia e opiniões mistas ainda geram erros. O domínio-alvo, comentários de pequenos negócios locais, **não foi medido**. O CSV fictício da livraria é apenas uma checagem de sanidade, com rótulos propostos que ainda precisam ser revisados pela equipe, e não uma estimativa de acurácia. Veja `docs/ANALISE_ERROS.md`.
+
+Rastreabilidade: `reports/comparacao_modelos.json` (comparação no teste), `reports/bertimbau_validation.json`, `reports/baseline_combinado_validation.json`, `reports/baseline_validation.json` (validação), `reports/dataset_manifest_combinado.json` (hashes e contagens) e `reports/erros_teste_b2w.json` (amostra de erros).
+
+### Treinar novamente
+
+Comandos reproduzíveis, na ordem. Os três primeiros rodam na CPU:
 
 ```powershell
-.\.venv\Scripts\python.exe -m experiments.train --test
+.\.venv\Scripts\python.exe -m experiments.train            # baseline v1 (UMSAB)
+.\.venv\Scripts\python.exe -m experiments.data             # divisões e manifesto (baixa o B2W)
+.\.venv\Scripts\python.exe -m experiments.train_combined   # baseline combinado
+uv sync --frozen --extra cu118                             # PyTorch com CUDA 11.8 (2,8 GB), só para treinar
+.\.venv\Scripts\python.exe -m experiments.train_transformer
+.\.venv\Scripts\python.exe -m experiments.compare          # teste: executar uma única vez
+.\.venv\Scripts\python.exe -m experiments.reclassify       # reclassifica a base local, com backup
 ```
 
-Esse comando gera `reports/baseline_test.json`; não deve ser usado durante ajustes iterativos. A primeira implementação ainda **não realizou a comparação com Transformer**, prevista na proposta técnica. Isso permanece como próximo marco científico.
+`experiments.compare` se recusa a rodar se a comparação já existir, para impedir ajustes guiados pelo teste. O build CUDA 11.8 foi escolhido porque ainda suporta GPUs Pascal (sm_61). Sem GPU, `train_transformer --cpu --limit N` permite um treino reduzido, muito mais lento.
 
 ### Fontes e uso dos dados
 
 - [Repositório XLM-T / UMSAB](https://github.com/cardiffnlp/xlm-t), versão `874214d64d96599eb869a033c22ec2cc57d19256`.
 - Barbieri, Espinosa Anke e Camacho-Collados (2022). [XLM-T: Multilingual Language Models in Twitter for Sentiment Analysis and Beyond](https://aclanthology.org/2022.lrec-1.27/).
 - Brum e Nunes (2018). [Building a Sentiment Corpus of Tweets in Brazilian Portuguese](https://aclanthology.org/L18-1658/).
+- [B2W-Reviews01](https://github.com/americanas-tech/b2w-reviews01), commit `4639429ec698d7821fc99a0bc665fa213d9fcd5a`, licença CC BY-NC-SA 4.0 (uso não comercial, com atribuição). Real, Oshiro e Mafra (2019), *B2W-Reviews01: an open product reviews corpus*, STIL.
+- [BERTimbau Base](https://huggingface.co/neuralmind/bert-base-portuguese-cased), revisão `94d69c95f98f7d5b2a8700c420230ae10def0baa`, licença MIT. Souza, Nogueira e Lotufo (2020), *BERTimbau: pretrained BERT models for Brazilian Portuguese*, BRACIS.
 
 A fonte XLM-T informa que podem se aplicar restrições dos datasets originais e da plataforma. Não é feita aqui uma afirmação de licença irrestrita. Os textos brutos são baixados somente para uso acadêmico local e ficam fora do Git; verificar as condições da fonte antes de qualquer redistribuição ou uso diferente. Os CSVs fictícios de demonstração foram criados para este projeto e não contêm textos do corpus.
 
@@ -151,10 +168,9 @@ docs/          Planejamento, progresso e roteiro de apresentação
 
 ## Próximas entregas
 
-1. Alinhar o recorte com o professor e discutir a contribuição para pequenos negócios locais.
-2. Comparar o baseline com um Transformer sob condições documentadas e comparáveis.
-3. Analisar erros e conversar com potenciais usuários; não há validação de mercado realizada.
-4. Consolidar metodologia, resultados e limitações no artigo.
-5. Estabilizar para a apresentação de 12/11 e a P2 de 19/11, conforme o cronograma fornecido.
+1. Medir o desempenho no domínio-alvo: rotular, com autorização, comentários reais de pequenos negócios locais.
+2. Revisar uma amostra de notas 3 do B2W para estimar o ruído do rótulo neutro.
+3. Conversar com potenciais usuários; não há validação de mercado realizada.
+4. Consolidar metodologia, resultados e limitações no artigo (P2 de 19/11), a partir de `docs/ANALISE_ERROS.md` e dos relatórios.
 
-Login, múltiplas empresas, APIs de redes sociais e atualização em tempo real ficam fora desta primeira versão. Consulte `docs/PLANO_MVP.md` e `docs/ROTEIRO_MONITORIA.md` para o contexto acadêmico.
+Login, múltiplas empresas, APIs de redes sociais, coleta em tempo real e classificação por API de LLM ficam fora do escopo. Consulte `docs/PLANO_MVP.md`, `docs/PROGRESSO.md` e `docs/ROTEIRO_APRESENTACAO.md`.
