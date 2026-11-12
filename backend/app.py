@@ -1,4 +1,5 @@
 import hashlib
+import json
 import logging
 import math
 import os
@@ -16,10 +17,11 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from backend.classifier import LABELS, ROOT, ModelUnavailable, SentimentClassifier
 from backend.database import connect, initialize
-from backend.imports import MAX_BYTES, InvalidCSV, parse_csv
+from backend.imports import MAX_BYTES, MAX_TEXT, InvalidCSV, parse_csv
 
 logger = logging.getLogger(__name__)
 DEMO_PATH = ROOT / "data" / "examples" / "comentarios_demo.csv"
+COMPARISON_PATH = ROOT / "reports" / "comparacao_modelos.json"
 
 
 def create_app(db_path: Path | None = None, classifier=None, frontend_dir: Path | None = None):
@@ -55,15 +57,96 @@ def create_app(db_path: Path | None = None, classifier=None, frontend_dir: Path 
 
     @app.get("/api/health")
     def health():
-        return {"status": "ok", "model_ready": model.ready, "model_version": model.version}
+        return {
+            "status": "ok",
+            "model_ready": model.ready,
+            "model_version": model.version,
+            "active_model": getattr(model, "active", "indisponível"),
+        }
 
     @app.get("/api/model")
     def model_info():
+        try:
+            comparison = json.loads(COMPARISON_PATH.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            comparison = None
+        baseline = getattr(model, "baseline", None)
         return {
             "ready": model.ready,
             "version": model.version,
             "report": getattr(model, "report", None),
+            "active_model": getattr(model, "active", "indisponível"),
+            "active_name": getattr(model, "active_name", "Indisponível"),
+            "fallback_reason": getattr(model, "fallback_reason", None),
+            "baseline_version": baseline.version if baseline and baseline.ready else None,
+            "comparison": comparison,
         }
+
+    def analyze_text(text: str):
+        if not model.ready:
+            raise HTTPException(503, "O modelo não está disponível.")
+
+        def result(classifier, active: str, name: str):
+            try:
+                scores = None
+                if hasattr(classifier, "predict_proba"):
+                    rows = classifier.predict_proba([text])
+                    if (
+                        len(rows) != 1
+                        or set(rows[0]) != set(LABELS)
+                        or any(not math.isfinite(rows[0][label]) for label in LABELS)
+                    ):
+                        raise ModelUnavailable("Pontuações inválidas do modelo.")
+                    scores = rows[0]
+                    label = max(LABELS, key=scores.get)
+                else:
+                    labels = classifier.predict([text])
+                    if len(labels) != 1 or labels[0] not in LABELS:
+                        raise ModelUnavailable("Resposta inválida do modelo.")
+                    label = labels[0]
+                return {
+                    "model": active,
+                    "name": name,
+                    "version": classifier.version,
+                    "label": label,
+                    "scores": scores,
+                }
+            except Exception as exc:
+                logger.exception("Falha na análise da frase")
+                raise HTTPException(503, "Falha ao analisar a frase. Tente novamente.") from exc
+
+        active = result(
+            model,
+            getattr(model, "active", "indisponível"),
+            getattr(model, "active_name", "Modelo ativo"),
+        )
+        baseline = getattr(model, "baseline", None)
+        baseline_result = (
+            result(
+                baseline,
+                "baseline",
+                (getattr(baseline, "report", None) or {}).get("model_name") or "Baseline TF-IDF",
+            )
+            if baseline and baseline.ready
+            else None
+        )
+        return {"active": active, "baseline": baseline_result, "persisted": False}
+
+    @app.post("/api/analyze")
+    async def analyze(request: Request):
+        try:
+            body = await request.json()
+        except ValueError as exc:
+            raise HTTPException(422, "Envie uma frase para analisar.") from exc
+        text = body.get("text") if isinstance(body, dict) else None
+        if not isinstance(text, str):
+            raise HTTPException(422, "Envie uma frase para analisar.")
+        text = text.strip()
+        if not text:
+            raise HTTPException(422, "Digite uma frase para analisar.")
+        if len(text) > MAX_TEXT:
+            raise HTTPException(422, "A frase pode ter até 5.000 caracteres.")
+        return await run_in_threadpool(analyze_text, text)
 
     def import_content(content: bytes, filename: str, is_demo: bool = False):
         try:

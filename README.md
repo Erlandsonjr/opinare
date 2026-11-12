@@ -29,15 +29,32 @@ Pré-requisitos: Python 3.11 a 3.14, [uv](https://docs.astral.sh/uv/getting-star
 .\iniciar.ps1
 ```
 
-A preparação baixa as dependências e o recorte português do UMSAB, treina o modelo e compila a interface. Requer internet nessa etapa. Depois, a aplicação e as fontes do painel funcionam sem internet. O modelo e os dados brutos não são incluídos no Git; a preparação os recria.
+A preparação instala as dependências (com PyTorch para CPU, cerca de 216 MB), baixa os dados acadêmicos (UMSAB e B2W, cerca de 50 MB), treina os dois baselines TF-IDF, que levam poucos minutos, e compila a interface. Requer internet nessa etapa. Depois, a aplicação funciona sem internet. Modelos e dados brutos não são incluídos no Git.
 
-Para refazer o treinamento: `.\preparar.ps1 -RecriarModelo`. Reinicie o servidor após trocar o modelo.
+**O BERTimbau ajustado não é treinado pela preparação.** Se a pasta `artifacts/bertimbau-sentimento/` existir e for válida, ele é usado; caso contrário, a aplicação usa o baseline TF-IDF e informa isso no topo do painel e no terminal. Treinar o Transformer é um passo manual (seção "Treinar novamente").
+
+Para refazer os baselines: `.\preparar.ps1 -RecriarModelo`. Reinicie o servidor após trocar um modelo.
+
+### Levar para outro computador
+
+O modelo treinado nunca precisa ser treinado de novo em outra máquina, e não é preciso ter placa de vídeo NVIDIA: a inferência roda na CPU.
+
+1. **Na véspera, com internet**, no outro computador: clone o repositório (branch desta versão) e instale uv e Node.js.
+2. Copie deste computador para a mesma pasta do projeto no outro:
+   - `artifacts/` inteira (cerca de 420 MB: BERTimbau ajustado e baselines);
+   - `var/opinare.sqlite3`, se quiser levar os dados já importados na demonstração.
+3. **Não copie `.venv`**: ambientes do uv não podem ser movidos entre computadores.
+4. Execute `.\preparar.ps1` uma vez. Ele reaproveita os modelos copiados, sem retreinar, instala o PyTorch para CPU e mostra se o BERTimbau foi validado.
+5. No dia, `.\iniciar.ps1` funciona sem internet.
+
+Se o BERTimbau ficar lento demais no computador da apresentação, inicie com o baseline: `$env:OPINARE_MODEL = 'baseline'; .\iniciar.ps1`.
 
 Em Linux/macOS, execute na raiz:
 
 ```sh
-uv sync --frozen
+uv sync --frozen --extra cpu
 uv run python -m experiments.train
+uv run python -m experiments.train_combined
 npm ci --prefix frontend
 npm run build --prefix frontend
 uv run uvicorn backend.app:app --host 127.0.0.1 --port 8000

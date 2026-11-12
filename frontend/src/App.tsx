@@ -36,10 +36,12 @@ import {
   api,
   ApiError,
   type Dashboard,
+  type Metrics,
   type ImportResult,
   type ModelInfo,
   type Sentiment,
 } from "./types";
+import SentenceTester from "./SentenceTester";
 
 const labels: Record<Sentiment, string> = {
   positivo: "Positivo",
@@ -47,6 +49,20 @@ const labels: Record<Sentiment, string> = {
   neutro: "Neutro",
 };
 const colors = { positivo: "#287c65", negativo: "#b85b49", neutro: "#737d69" };
+const configurationNames: Record<string, string> = {
+  max_length: "Comprimento máximo",
+  learning_rate: "Taxa de aprendizado",
+  epochs: "Épocas",
+  per_device_batch: "Lote por dispositivo",
+  gradient_accumulation: "Acumulação de gradientes",
+  effective_batch: "Lote efetivo",
+  warmup_ratio: "Proporção de aquecimento",
+  weight_decay: "Decaimento de pesos",
+  seed: "Semente",
+  selection: "Seleção",
+  text_preparation: "Preparação do texto",
+  precision: "Precisão numérica",
+};
 const percent = (value: number) =>
   new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 1 }).format(value) +
   "%";
@@ -297,22 +313,35 @@ export default function App() {
               <p className="subtitle">
                 {view === "dashboard"
                   ? "Entenda os sentimentos presentes nos seus comentários, em um só lugar."
-                  : "Dados, resultados e limites do primeiro classificador do Opinare."}
+                  : "Dados, resultados e limites do modelo ativo do Opinare."}
               </p>
             </div>
-            <button
-              ref={openButton}
-              className="button primary"
-              onClick={() => {
-                setImportError(null);
-                setImportOpen(true);
-              }}
-              disabled={importing}
-            >
-              <Upload size={17} />
-              Importar CSV
-            </button>
+            <div className="heading-actions">
+              <SentenceTester />
+              <button
+                ref={openButton}
+                className="button primary"
+                onClick={() => {
+                  setImportError(null);
+                  setImportOpen(true);
+                }}
+                disabled={importing}
+              >
+                <Upload size={17} />
+                Importar CSV
+              </button>
+            </div>
           </div>
+
+          {model && (
+            <div className="active-model-note">
+              <span className="model-tag">
+                <ShieldCheck size={14} />
+                Modelo ativo: {model.active_name}
+              </span>
+              {model.fallback_reason && <span>{model.fallback_reason}</span>}
+            </div>
+          )}
 
           {notice && (
             <div className="notice success" role="status">
@@ -1159,26 +1188,34 @@ function Methodology({
       </section>
     );
   const metrics = report.metrics;
+  const comparison = model?.comparison;
   return (
     <div className="methodology">
+      {comparison && <ComparisonResults model={model} />}
       <div className="demo-banner">
         <FlaskConical size={19} />
         <span>
-          <strong>Avaliação preliminar.</strong> Os números abaixo são da
-          validação.{" "}
-          {report.test_evaluated
-            ? "O teste final já foi consultado; confira o relatório específico."
-            : "O conjunto de teste final permanece reservado."}
+          <strong>
+            {comparison
+              ? "Validação do modelo ativo."
+              : "Avaliação preliminar."}
+          </strong>{" "}
+          Os números abaixo são da validação.{" "}
+          {comparison
+            ? "Os números de teste acima foram calculados uma vez após a seleção do modelo."
+            : report.test_evaluated
+              ? "O teste final já foi consultado; confira o relatório específico."
+              : "O conjunto de teste final permanece reservado."}
         </span>
       </div>
       <div className="panel method-panel">
-        <p className="eyebrow">PRIMEIRO CLASSIFICADOR</p>
+        <p className="eyebrow">MODELO ATIVO</p>
         <h2>{report.model_name}</h2>
         <p>
-          Representação por palavras e trechos de caracteres, seguida de um
-          classificador linear nas três classes. O modelo foi treinado em textos
-          reais de redes sociais; os exemplos fictícios do painel não entram nas
-          métricas.
+          {model?.active_model === "bertimbau"
+            ? "BERTimbau ajustado para três classes de sentimento em português."
+            : "TF-IDF de palavras e caracteres com regressão logística para três classes."}{" "}
+          Os exemplos fictícios do painel não entram nas métricas.
         </p>
         <div className="method-stats">
           <div>
@@ -1274,16 +1311,21 @@ function Methodology({
         <div className="dataset-note">
           <BookOpen size={20} />
           <div>
-            <strong>{report.dataset}</strong>
+            <strong>
+              {report.dataset || "Dados de treinamento em português"}
+            </strong>
             <p>
               Divisões oficiais preservadas, com remoção de duplicados e
               sobreposição entre treino e validação.{" "}
-              {number(report.samples.test_reserved)} textos de teste reservados.
+              {number(report.samples.test_reserved)} textos de teste
+              {comparison ? " avaliados na comparação" : " reservados"}.
             </p>
-            <a href={report.source_url} target="_blank" rel="noreferrer">
-              Consultar base de treinamento (abre em nova aba){" "}
-              <ArrowRight size={13} />
-            </a>
+            {report.source_url && (
+              <a href={report.source_url} target="_blank" rel="noreferrer">
+                Consultar base de treinamento (abre em nova aba){" "}
+                <ArrowRight size={13} />
+              </a>
+            )}
           </div>
         </div>
         <h3>Limitações e próximos passos</h3>
@@ -1292,8 +1334,222 @@ function Methodology({
             <li key={item}>{item}</li>
           ))}
         </ul>
+        {report.configuration && (
+          <>
+            <h3>Configuração do treinamento</h3>
+            <dl className="configuration-list">
+              {Object.entries(report.configuration).map(([key, value]) => (
+                <div key={key}>
+                  <dt>{configurationNames[key] || key.replaceAll("_", " ")}</dt>
+                  <dd>{String(value)}</dd>
+                </div>
+              ))}
+              {report.best_epoch != null && (
+                <div>
+                  <dt>Melhor época</dt>
+                  <dd>{report.best_epoch}</dd>
+                </div>
+              )}
+              {report.training_seconds != null && (
+                <div>
+                  <dt>Tempo de treino</dt>
+                  <dd>
+                    {number(Math.round(report.training_seconds))} segundos
+                  </dd>
+                </div>
+              )}
+              {report.hardware?.gpu && (
+                <div>
+                  <dt>GPU</dt>
+                  <dd>{report.hardware.gpu}</dd>
+                </div>
+              )}
+            </dl>
+          </>
+        )}
         <p className="model-version">Modelo: {model?.version}</p>
       </div>
     </div>
+  );
+}
+
+function ComparisonResults({ model }: { model: ModelInfo }) {
+  const comparison = model.comparison!;
+  const active = comparison.models.find(
+    (item) => item.model_id === model.version,
+  );
+  return (
+    <div className="panel method-panel">
+      <p className="eyebrow">COMPARAÇÃO EM TESTES RESERVADOS</p>
+      <h2>Resultados por conjunto de teste</h2>
+      <p>
+        Os números de teste foram calculados uma vez após a seleção do modelo.
+      </p>
+      <p>
+        {comparison.protocol} {comparison.selection_rule}
+      </p>
+      <div
+        className="table-wrap"
+        role="region"
+        aria-label="Comparação de modelos"
+        tabIndex={0}
+      >
+        <table className="metrics-table comparison-table">
+          <thead>
+            <tr>
+              <th scope="col">Modelo</th>
+              {comparison.test_sets.map((set) => (
+                <th scope="col" key={set.key}>
+                  {set.name}
+                  <br />
+                  F1 macro / acurácia
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {comparison.models.map((item) => (
+              <tr
+                key={item.key}
+                className={
+                  item.model_id === model.version ? "active-comparison" : ""
+                }
+              >
+                <th scope="row">
+                  {item.name}
+                  {item.model_id === model.version ? " · ativo" : ""}
+                </th>
+                {comparison.test_sets.map((set) => {
+                  const metrics = comparison.results[item.key]?.[set.key];
+                  return (
+                    <td key={set.key}>
+                      {metrics
+                        ? `${percent(metrics.f1_macro * 100)} / ${percent(metrics.accuracy * 100)}`
+                        : "—"}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+            <tr>
+              <th scope="row">Classe majoritária (piso)</th>
+              {comparison.test_sets.map((set) => {
+                const metrics = comparison.dummy[set.key];
+                return (
+                  <td key={set.key}>
+                    {metrics
+                      ? `${percent(metrics.f1_macro * 100)} / ${percent(metrics.accuracy * 100)}`
+                      : "—"}
+                  </td>
+                );
+              })}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      {active &&
+        comparison.test_sets.map((set) => {
+          const metrics = comparison.results[active.key]?.[set.key];
+          return (
+            metrics && (
+              <TestMetrics key={set.key} name={set.name} metrics={metrics} />
+            )
+          );
+        })}
+      <h3>Fontes dos dados e licenças</h3>
+      <ul className="limitations">
+        {comparison.data_sources.map((source) => (
+          <li key={source.url}>
+            <a href={source.url} target="_blank" rel="noreferrer">
+              {source.name}
+            </a>{" "}
+            · {source.license} · {source.use}
+          </li>
+        ))}
+      </ul>
+      <h3>Limitações da comparação</h3>
+      <ul className="limitations">
+        {comparison.limitations.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function TestMetrics({ name, metrics }: { name: string; metrics: Metrics }) {
+  return (
+    <section className="test-metrics">
+      <h3>{name}: desempenho do modelo ativo</h3>
+      <p>
+        F1 macro: {percent(metrics.f1_macro * 100)} · acurácia:{" "}
+        {percent(metrics.accuracy * 100)}
+      </p>
+      <div
+        className="table-wrap"
+        role="region"
+        aria-label={`Desempenho por classe: ${name}`}
+        tabIndex={0}
+      >
+        <table className="metrics-table">
+          <thead>
+            <tr>
+              <th scope="col">Classe</th>
+              <th scope="col">Precisão</th>
+              <th scope="col">Recall</th>
+              <th scope="col">F1</th>
+              <th scope="col">Exemplos</th>
+            </tr>
+          </thead>
+          <tbody>
+            {metrics.label_order.map((label) => {
+              const item = metrics.classification_report[label];
+              return (
+                <tr key={label}>
+                  <th scope="row">{labels[label]}</th>
+                  <td>{percent(item.precision * 100)}</td>
+                  <td>{percent(item.recall * 100)}</td>
+                  <td>{percent(item["f1-score"] * 100)}</td>
+                  <td>{item.support}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <h3>Matriz de confusão: {name}</h3>
+      <p>Linhas: classe real. Colunas: classe prevista.</p>
+      <div
+        className="table-wrap"
+        role="region"
+        aria-label={`Matriz de confusão: ${name}`}
+        tabIndex={0}
+      >
+        <table className="confusion-table">
+          <thead>
+            <tr>
+              <th scope="col">Real / prevista</th>
+              {metrics.label_order.map((label) => (
+                <th scope="col" key={label}>
+                  {labels[label]}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {metrics.confusion_matrix.map((row, i) => (
+              <tr key={i}>
+                <th scope="row">{labels[metrics.label_order[i]]}</th>
+                {row.map((value, j) => (
+                  <td key={j} className={i === j ? "diagonal" : ""}>
+                    {value}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
   );
 }

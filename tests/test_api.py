@@ -4,7 +4,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from backend.app import create_app
-from backend.classifier import ModelUnavailable, SentimentClassifier
+from backend.classifier import MODEL_PATH, ModelUnavailable, SentimentClassifier
 from backend.database import connect
 
 
@@ -145,7 +145,7 @@ def test_missing_model_is_readable_but_cannot_import(database, tmp_path):
 
 
 def test_real_trained_model_has_three_classes_and_handles_demo():
-    classifier = SentimentClassifier()
+    classifier = SentimentClassifier(path=MODEL_PATH)
     assert classifier.ready, "Prepare o modelo com python -m experiments.train antes deste teste."
     assert set(classifier.bundle["pipeline"].classes_) == {"positivo", "negativo", "neutro"}
     predictions = classifier.predict(
@@ -158,6 +158,47 @@ def test_real_trained_model_has_three_classes_and_handles_demo():
     assert len(predictions) == 3
     assert all(value in {"positivo", "negativo", "neutro"} for value in predictions)
     assert classifier.report["model_id"] == classifier.version
+
+
+def test_analyze_returns_scores_and_does_not_persist(database):
+    class Scored(FakeClassifier):
+        active = "bertimbau"
+        active_name = "BERTimbau"
+        baseline = FakeClassifier()
+
+        def predict_proba(self, texts):
+            return [{"negativo": 0.1, "neutro": 0.2, "positivo": 0.7}]
+
+    with TestClient(create_app(database, Scored())) as client:
+        response = client.post("/api/analyze", json={"text": "Muito bom"})
+        assert response.status_code == 200
+        assert response.json()["active"]["scores"]["positivo"] == 0.7
+        assert response.json()["baseline"]["scores"] is None
+        assert response.json()["persisted"] is False
+        assert client.get("/api/dashboard").json()["total_all"] == 0
+
+
+def test_analyze_validation_and_origin(client):
+    assert client.post("/api/analyze", json={}).status_code == 422
+    assert (
+        client.post("/api/analyze", json={"text": " "}).json()["detail"]
+        == "Digite uma frase para analisar."
+    )
+    assert client.post("/api/analyze", json={"text": "a" * 5001}).status_code == 422
+    assert (
+        client.post(
+            "/api/analyze", json={"text": "bom"}, headers={"Origin": "https://evil.example"}
+        ).status_code
+        == 403
+    )
+
+
+def test_analyze_unavailable(database):
+    class Broken(FakeClassifier):
+        ready = False
+
+    with TestClient(create_app(database, Broken())) as client:
+        assert client.post("/api/analyze", json={"text": "bom"}).status_code == 503
 
 
 def test_download_template_contains_no_fictitious_comments(client):
