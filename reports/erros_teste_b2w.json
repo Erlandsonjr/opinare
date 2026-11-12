@@ -1,0 +1,567 @@
+{
+  "model": "bertimbau",
+  "note": "Amostra aleatória (semente 42) de erros do modelo selecionado no teste B2W. Textos do B2W-Reviews01, CC BY-NC-SA 4.0.",
+  "total_errors": 375,
+  "sample": [
+    {
+      "text": "Deixa o cabelo muito disciplinado e sem muito esforço se comparado ao secador! Não Recomendo utilizar muito molhado , é bom esperar uns 5 minutos que o resultado é bem melhor, o cabelo fica bem mais liso! Para cabelos enrolados creio que não é eficiente, mas para cabelos ondulados como é o meu caso funcionou muito bem! Satisfeita com o produto e entrega também.",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Os livros são ótimos e vieram bem embalados. As histórias são ótimas!! Adorei!!",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "Motor fraquinho...poderia ser melhor; tampa muito abaulada,ruim para recolher resíduos...poderia ser melhor.... copo muito cheio de \"coisas\", ruim para higienização.Enfim, a Mondial poderia repensar este aparelho...apesar do produto cumprir a função para a qual foi criado, pode ser melhorado e muito. O projetista de produtos precisa ir mais à cozinha antes de desenhar produtos como esse.",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Muito boa, é pratica de colocar e o abdomen transpira muito. Gostei",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Gostei muito,superou as expectativas,recomendo! O produto chegou antes da data prevista,estou satisfeito.",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Chave top, solta e aperta parafusos, abre cofre de banco, abre a casa branca, abre a porta da área 51, abre as portas do céu.",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "produto bom, atendimento da loja excelente!............................................................",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "até o momento eu aprovo o produto, presente de aniversario pra minha sobrinha que fez 7 anos, tem o modo infantil que é otimo para o desenvolvimento dessa faixa etaria.",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "O produto chegou, mas pela metade só veio o clareador a luz não!! Preço tbm deveria ser pela metade.",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Muito bom, bonito, rápido, um pouco grande mas gostei bastante :D",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "A lanterna é nova e perfeita, porem não serviu para o carro .",
+      "gold": "positivo",
+      "predicted": "negativo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "O pedimpedimos uma coisa e chegou outra,compramos o carregador e bateria do xbox one e chegou do xbox 360!",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "O meu produto era p ter chego 1 mês depois da compra (01/03), mas até o momento (13/03) não recebi, apesar d 2 reclamações, na resposta me pediram p aguardar e não deram nenhuma previsão.",
+      "gold": "neutro",
+      "predicted": "negativo",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "otimo, fiquei muito satisfeito, recomendo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "É um excelente produto, porém não tinha o q eu tb queria. ( Netflix ) . Para ter teria que comprar um aparelho para acoplar na mesma. Mas é um excelente produto.",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "O produto em si é bom, mas a empresa não é nada boa,pois comprei o produto dia 27/01/2018 e a entrega estava prevista até 15/02/2018, só que o produto chegou dia 22/02/2018, e isso só aconteceu porque diz cancelar.",
+      "gold": "neutro",
+      "predicted": "negativo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Produto de qualidade. Recomendo a aquisição para entretenimento.",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Um dos aparelhos veio com defeito e não ligou enviei para troca pelo codigo de postagem e ate hoje não tive retorno.",
+      "gold": "neutro",
+      "predicted": "negativo",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Atendeu minhas espequitativas funciona como descrito, só achei um pouco grande e pesada.",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "O produto diz que é para crianças de até 5 anos! porém já fica pequena para uma criança de 3. O material da \"pele\" da bateria onde era p/ sair o som, é de papelão.. Não faz som.. é mais para brincar mesmo. E esta foto onde cada tom aparece de um tamanho é enganosa. Já que os dois tons tem o mesmo tamanho. Fora isso meu sobrinho de 2 anos está se divertindo bem..",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Gostei muito da fragancia, me supreendeu , pois comprei no escuro sem saber o que esperar. Muito bom",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "cade a informação técnica do ar gree? assim não dá. É direito do consumidor.",
+      "gold": "neutro",
+      "predicted": "negativo",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Simples mais eficiente , e para quem não não tem capital suficiente para comprar um de primeira linha. Atende as expectativas, principalmente a case que vem junto acoplado ao Tablet. Recomendo sim para os demais.",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Apesar da demora ,chegou em perfeito estado..minha filha adorou,Então está ok!",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "entrega rápida ,boa qualidade satisfeita.com o produto",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Pra quem gosta de saber como seu idolo chegou ao topo é um otimo livro.",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Efetuei a compra do produto, entrega aconteceu dentro do prazo porem: - O produto NÃO ESTAVA EMBALADO Como resido em condomínio e estava viajando, o condomínio inteiro conseguiu ver o produto considerei isso uma falta de respeito. Será caro embalar o produto com um papel?",
+      "gold": "neutro",
+      "predicted": "negativo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Produto de ótima qualidade um pouco difícil de montar e instalar.",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "A Behringer é pequena mas dá conta do recado! Recomendo.",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Bela mochila , com bastante compartimentos e bem resistente . É a segunda da Portare q adquiro .",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Foi tão pouco usado que ainda não sabemos o resultado da performance deste aparelho. No entanto, à primeira vista, o aparelho tem demonstrado que corresponde às expectativas e ao anúncio. Era isso!",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Queria saber porque comprei um modelo de baicama e veio outro.",
+      "gold": "neutro",
+      "predicted": "negativo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "produto muito bom . entrega dentro do passo. produto que chegou é o mesmo que o anuncio publicado.",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "Funciona perfeitamente para o fim que se destina.",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Bom de jogar, a jogabilidade do jogo é ótima. Desafios legais, qualidade excelente.",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "O preço do frete está errado? Por gentileza dêem uma olhada no preço do frete cobrado pra esse produto...",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "É uma cortina bonita, mas o tecido é muito fino e ela deixa passar muita luz.",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "bom custo e beneficio é uma smart e sansung por este preço. recomendo",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "O produto veio com a caixa violada, sem o lacre da embalagem. eu não recomendo a compra pelas americanas, fora a demora na entrega o produto chegou com a violada.",
+      "gold": "neutro",
+      "predicted": "negativo",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Imaginei que fosse maior mas já é o suficiente! A cor confere e o prazo de entrega foi razoável!",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Bom jato de ar e potência para um aparelho de viagem. Resistente.",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Não achei aparelho com o mesmo nível de hardware nessa faixa de preço. Até o momento funciona perfeitamente, conforme o esperado.",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Eu gostei do produto, porém não vem com o Adaptador Lightning que foi um dos motivos da minha compra. Gostaria de saber a causa da propaganda enganosa. Pois se não vão enviar não deveriam prometer o que não podem cumprir.",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Atendeu minhas expectativas, porém o material é frágil.",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "Não gostei do tempo de entrega, demora muito, Comprei esse produto e não recebi ainda, já passou da data de entrega e nada.",
+      "gold": "neutro",
+      "predicted": "negativo",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Na foto de propaganda do produto, mostra que cabem 12 latas de 350 ml. O que não mostra, é que se colocarmos as 12 latas, a tampa não fecha. Além disso, comprei o produto para uma viagem, e ele chegou com uma semana de atraso. Por isso, não pude levar na viagem.",
+      "gold": "neutro",
+      "predicted": "negativo",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Comprei um celular LG k4 espero q não seja oq estão falando foi minha primeira compra nas Americanas espero ficar satisfeito com oh serviço",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Gostei veio igual a imagem recomendo para as pessoas",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Carteira bacana, boa qualidade, tudo ok , satisfeito !!!!!!!!!!",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Deveria ser frascos com 50 mll, 30 ml e muito.pouco",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "Estética bonita, porém não passa de um ventilador fraco. O barulho ao aumentar para o nível 3 de ventilação e bem alto. A opção umidificar mesmo colocando gelo sinceramente não resfria o ambiente. Optaria por um ventilador que é mais barato, silencioso e tem mais eficiência térmica.",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Estou muito interessada nesse produto, quase comprei. Mas tenho uma dúvida: Na hora de usar a parte central do guarda roupa, uma das portas estará cobrindo metade dela? Porque o guarda roupa tem 2 portas mas 3 divisórias. Então a do meio não fica totalmente aberta como as laterais, certo?",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Gostaria de saber se esse produto tem bluetooth? ......................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Produto bom, de ótima qualidade e de fácil instalação.",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "Pra vender é bem rápido mas para entregar foi uma tortura , atendimento pós venda péssima",
+      "gold": "neutro",
+      "predicted": "negativo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "O produto é bom, mas Comprei essa cama de cima e veio outro modelo no lugar ... Queria igual da foto.",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "O sofá tem uma cor que aparenta ser sujo , o material é regular . Mais aparentemente é bonito , dá um toque bonito na sala.",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "Bom aparelho me arisco a dizer que e melhor ate que algumas marcas já com o nome reconhecido.",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "Das muitas compras no site,esta foi a pior delas,empresa não cumpre prazo de entrega.",
+      "gold": "neutro",
+      "predicted": "negativo",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Fraco, produto bem mais ou menos e deixou a desejar",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "O primeiro produto (CD) que foi trocado apresentava problemas: estava levemente curvado comprometendo sua execução. O segundo produto apesar de estar levemente curvado também, não apresentou problemas para executar.",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "O produto pode até ser de qualidade, mas é inadmissível você comprar no dia 11 de dezembro e o produto não chegar para o Natal. Como explicar para uma criança que teve atraso na entrega e que o presente que ele escolheu não chegou? Tanto a americanas, correio e a empresa grafite são solidários, portanto Tds tem a responsabilidade da entrega. Fiquei extremamente desapontada com a falta de responsabilidade de vcs e o não cumprimento da data de entrega estabelecida no momento da compra, uma vez que só efetuei a compra no estabelecimento por ter prazo de entrega antes do Natal, isso porque comprei com antecedência!!!",
+      "gold": "neutro",
+      "predicted": "negativo",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Um bom aparelho, mas com uma bateria muito ruim, dura no máximo 36 horas",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "Tem respondido às características anunciadas. É um aparelho leve, som não é baixo como outros aparelhos.",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Produto e original? Tem nota fiscal ? Preciso saber?",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Tive um atraso enorme na entrega comprei pela JM magazine que não recomendo pois nao tem compromisso com a entrega porem o produto atinge a expectativa fiz sem dificuldade",
+      "gold": "positivo",
+      "predicted": "negativo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Já tive uma AF-03 da Mondial e estragou, essa da Oster é bem melhor, mais silenciosa, vem com uns acessórios como forma para bolos e lasanha e um livro de receitas. Recomento!",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "Otima opçao para pequenos espaços. Boa qualidade. Vai para qualquer ligar pois nao depende de tomada.",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "comprei a caixa de som mas meu computador (placa mãe p5vd2mx) n reconheceu a caixa de som",
+      "gold": "neutro",
+      "predicted": "negativo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Aproveitei o preço baixo e comprei pra família toda!",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "O Valor do frete, é um absurdo!!!!!!! Mesmo vc.comprando um ou dois/tres conjuntos.",
+      "gold": "neutro",
+      "predicted": "negativo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "Estou satisfeita com a compra dessas almofadas. A entrega foi rapida e a qualidade do produto boa. O preco tb otimo.",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "Recebi ate antes da data marcada. Linda mochila. Obrigada",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "Produto chegou faltando poucos dias para o vencimento",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "funcionou tudo bem, simples uso teclado , contato , funcoes simples funcional",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Esse novo modelo veio com a base mais leve, porém os copos estão mais reforçados. Faz pouco ruído se comparado a outras marcas e modelos. Recomendo!",
+      "gold": "positivo",
+      "predicted": "neutro",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "negativo"
+    },
+    {
+      "text": "excelente qualidade pilhas sao muito boas vou comprar mais",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "positivo",
+      "baseline_v1": "positivo"
+    },
+    {
+      "text": "Simples, prático e compacto e a baixo custo. Recomendo.",
+      "gold": "neutro",
+      "predicted": "positivo",
+      "baseline_combinado": "neutro",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "Problema no cristal líquido no primeiro mês de uso, sem queda. Entrarei em contato pois está na garantia.",
+      "gold": "negativo",
+      "predicted": "neutro",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "neutro"
+    },
+    {
+      "text": "nao vou comprar , porque acho um absurdo o preço do frete , ele e maior que o preco da mercadoria , adoro comprar na americanas , mas desta forma realmente , deixo de comprar, a mercadoria fica no mesmo preço que muitas lojas , que sairia com o produto , na hora , não vejo nenhuma vantagem .......",
+      "gold": "neutro",
+      "predicted": "negativo",
+      "baseline_combinado": "negativo",
+      "baseline_v1": "negativo"
+    }
+  ]
+}

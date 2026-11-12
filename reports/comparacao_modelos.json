@@ -1,0 +1,804 @@
+{
+  "generated_at": "2026-11-12T03:34:44.810339+00:00",
+  "protocol": "Treino e seleção de época apenas com treino/validação. Divisões disjuntas por texto normalizado. Teste consultado uma única vez, depois da seleção do modelo; nenhum ajuste foi feito a partir destes números.",
+  "selection_rule": "Entre os modelos treinados nos mesmos dados combinados, foi escolhido o de maior F1 macro na validação combinada (UMSAB + B2W). A regra foi aplicada antes do teste.",
+  "selected_model": "bertimbau",
+  "models": [
+    {
+      "key": "baseline_v1",
+      "name": "TF-IDF + regressão logística (baseline v1)",
+      "model_id": "tfidf-logreg-umsab-pt-7c73a5308862",
+      "training_data": "UMSAB treino (1.839 tweets)",
+      "validation_f1_macro": 0.5777552419260462,
+      "validation_note": "Validação UMSAB (323 textos), não comparável à combinada."
+    },
+    {
+      "key": "baseline_combinado",
+      "name": "TF-IDF + regressão logística (UMSAB + B2W)",
+      "model_id": "tfidf-logreg-b2w-umsab-4b3f8b80c163",
+      "training_data": "UMSAB treino + B2W treino (7.839 textos)",
+      "validation_f1_macro": 0.6685945748866176,
+      "validation_note": "Validação combinada UMSAB + B2W (1.223 textos)."
+    },
+    {
+      "key": "bertimbau",
+      "name": "BERTimbau Base ajustado (UMSAB + B2W)",
+      "model_id": "bertimbau-b2w-umsab-cbd682b00250",
+      "training_data": "UMSAB treino + B2W treino (7.839 textos)",
+      "validation_f1_macro": 0.7302989546563333,
+      "validation_note": "Validação combinada UMSAB + B2W (1.223 textos)."
+    }
+  ],
+  "test_sets": [
+    {
+      "key": "umsab",
+      "name": "UMSAB · teste",
+      "size": 869,
+      "description": "Tweets sobre programas de TV (TweetSentBR), divisão oficial.",
+      "license": "Uso acadêmico; restrições dos datasets originais podem se aplicar."
+    },
+    {
+      "key": "b2w",
+      "name": "B2W · teste",
+      "size": 1500,
+      "description": "Avaliações reais de e-commerce, 500 por classe; nota 3 = neutro.",
+      "license": "CC BY-NC-SA 4.0"
+    }
+  ],
+  "results": {
+    "baseline_v1": {
+      "umsab": {
+        "accuracy": 0.5880322209436134,
+        "f1_macro": 0.588741806739737,
+        "classification_report": {
+          "negativo": {
+            "precision": 0.5993485342019544,
+            "recall": 0.6366782006920415,
+            "f1-score": 0.6174496644295302,
+            "support": 289.0
+          },
+          "neutro": {
+            "precision": 0.5100671140939598,
+            "recall": 0.5241379310344828,
+            "f1-score": 0.5170068027210885,
+            "support": 290.0
+          },
+          "positivo": {
+            "precision": 0.6628787878787878,
+            "recall": 0.603448275862069,
+            "f1-score": 0.631768953068592,
+            "support": 290.0
+          },
+          "accuracy": 0.5880322209436134,
+          "macro avg": {
+            "precision": 0.590764812058234,
+            "recall": 0.5880881358628645,
+            "f1-score": 0.588741806739737,
+            "support": 869.0
+          },
+          "weighted avg": {
+            "precision": 0.5907549343572631,
+            "recall": 0.5880322209436134,
+            "f1-score": 0.5887087712303126,
+            "support": 869.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            184,
+            73,
+            32
+          ],
+          [
+            81,
+            152,
+            57
+          ],
+          [
+            42,
+            73,
+            175
+          ]
+        ],
+        "label_order": [
+          "negativo",
+          "neutro",
+          "positivo"
+        ]
+      },
+      "b2w": {
+        "accuracy": 0.4826666666666667,
+        "f1_macro": 0.4647067388208416,
+        "classification_report": {
+          "negativo": {
+            "precision": 0.481029810298103,
+            "recall": 0.71,
+            "f1-score": 0.5735056542810986,
+            "support": 500.0
+          },
+          "neutro": {
+            "precision": 0.3742138364779874,
+            "recall": 0.238,
+            "f1-score": 0.29095354523227385,
+            "support": 500.0
+          },
+          "positivo": {
+            "precision": 0.5630630630630631,
+            "recall": 0.5,
+            "f1-score": 0.5296610169491526,
+            "support": 500.0
+          },
+          "accuracy": 0.4826666666666667,
+          "macro avg": {
+            "precision": 0.4727689032797178,
+            "recall": 0.48266666666666663,
+            "f1-score": 0.4647067388208416,
+            "support": 1500.0
+          },
+          "weighted avg": {
+            "precision": 0.4727689032797178,
+            "recall": 0.4826666666666667,
+            "f1-score": 0.4647067388208416,
+            "support": 1500.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            355,
+            106,
+            39
+          ],
+          [
+            226,
+            119,
+            155
+          ],
+          [
+            157,
+            93,
+            250
+          ]
+        ],
+        "label_order": [
+          "negativo",
+          "neutro",
+          "positivo"
+        ]
+      }
+    },
+    "baseline_combinado": {
+      "umsab": {
+        "accuracy": 0.6110471806674338,
+        "f1_macro": 0.610874143749487,
+        "classification_report": {
+          "negativo": {
+            "precision": 0.6302250803858521,
+            "recall": 0.6782006920415224,
+            "f1-score": 0.6533333333333333,
+            "support": 289.0
+          },
+          "neutro": {
+            "precision": 0.5463917525773195,
+            "recall": 0.5482758620689655,
+            "f1-score": 0.5473321858864028,
+            "support": 290.0
+          },
+          "positivo": {
+            "precision": 0.6591760299625468,
+            "recall": 0.6068965517241379,
+            "f1-score": 0.6319569120287253,
+            "support": 290.0
+          },
+          "accuracy": 0.6110471806674338,
+          "macro avg": {
+            "precision": 0.6119309543085728,
+            "recall": 0.611124368611542,
+            "f1-score": 0.610874143749487,
+            "support": 869.0
+          },
+          "weighted avg": {
+            "precision": 0.6119099023798303,
+            "recall": 0.6110471806674338,
+            "f1-score": 0.6108252839225783,
+            "support": 869.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            196,
+            62,
+            31
+          ],
+          [
+            71,
+            159,
+            60
+          ],
+          [
+            44,
+            70,
+            176
+          ]
+        ],
+        "label_order": [
+          "negativo",
+          "neutro",
+          "positivo"
+        ]
+      },
+      "b2w": {
+        "accuracy": 0.7073333333333334,
+        "f1_macro": 0.708190643313097,
+        "classification_report": {
+          "negativo": {
+            "precision": 0.7769230769230769,
+            "recall": 0.808,
+            "f1-score": 0.792156862745098,
+            "support": 500.0
+          },
+          "neutro": {
+            "precision": 0.5833333333333334,
+            "recall": 0.616,
+            "f1-score": 0.5992217898832685,
+            "support": 500.0
+          },
+          "positivo": {
+            "precision": 0.7721238938053098,
+            "recall": 0.698,
+            "f1-score": 0.7331932773109243,
+            "support": 500.0
+          },
+          "accuracy": 0.7073333333333334,
+          "macro avg": {
+            "precision": 0.7107934346872401,
+            "recall": 0.7073333333333333,
+            "f1-score": 0.708190643313097,
+            "support": 1500.0
+          },
+          "weighted avg": {
+            "precision": 0.71079343468724,
+            "recall": 0.7073333333333334,
+            "f1-score": 0.708190643313097,
+            "support": 1500.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            404,
+            86,
+            10
+          ],
+          [
+            99,
+            308,
+            93
+          ],
+          [
+            17,
+            134,
+            349
+          ]
+        ],
+        "label_order": [
+          "negativo",
+          "neutro",
+          "positivo"
+        ]
+      }
+    },
+    "bertimbau": {
+      "umsab": {
+        "accuracy": 0.7088607594936709,
+        "f1_macro": 0.709079232217266,
+        "classification_report": {
+          "negativo": {
+            "precision": 0.7364864864864865,
+            "recall": 0.754325259515571,
+            "f1-score": 0.7452991452991453,
+            "support": 289.0
+          },
+          "neutro": {
+            "precision": 0.6348122866894198,
+            "recall": 0.6413793103448275,
+            "f1-score": 0.6380789022298456,
+            "support": 290.0
+          },
+          "positivo": {
+            "precision": 0.7571428571428571,
+            "recall": 0.7310344827586207,
+            "f1-score": 0.743859649122807,
+            "support": 290.0
+          },
+          "accuracy": 0.7088607594936709,
+          "macro avg": {
+            "precision": 0.7094805434395878,
+            "recall": 0.7089130175396731,
+            "f1-score": 0.709079232217266,
+            "support": 869.0
+          },
+          "weighted avg": {
+            "precision": 0.7094494664050114,
+            "recall": 0.7088607594936709,
+            "f1-score": 0.709037552225227,
+            "support": 869.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            218,
+            47,
+            24
+          ],
+          [
+            60,
+            186,
+            44
+          ],
+          [
+            18,
+            60,
+            212
+          ]
+        ],
+        "label_order": [
+          "negativo",
+          "neutro",
+          "positivo"
+        ]
+      },
+      "b2w": {
+        "accuracy": 0.75,
+        "f1_macro": 0.7498730033505675,
+        "classification_report": {
+          "negativo": {
+            "precision": 0.8333333333333334,
+            "recall": 0.84,
+            "f1-score": 0.8366533864541833,
+            "support": 500.0
+          },
+          "neutro": {
+            "precision": 0.6372745490981964,
+            "recall": 0.636,
+            "f1-score": 0.6366366366366366,
+            "support": 500.0
+          },
+          "positivo": {
+            "precision": 0.778672032193159,
+            "recall": 0.774,
+            "f1-score": 0.7763289869608826,
+            "support": 500.0
+          },
+          "accuracy": 0.75,
+          "macro avg": {
+            "precision": 0.7497599715415629,
+            "recall": 0.75,
+            "f1-score": 0.7498730033505675,
+            "support": 1500.0
+          },
+          "weighted avg": {
+            "precision": 0.7497599715415629,
+            "recall": 0.75,
+            "f1-score": 0.7498730033505675,
+            "support": 1500.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            420,
+            76,
+            4
+          ],
+          [
+            76,
+            318,
+            106
+          ],
+          [
+            8,
+            105,
+            387
+          ]
+        ],
+        "label_order": [
+          "negativo",
+          "neutro",
+          "positivo"
+        ]
+      }
+    }
+  },
+  "dummy": {
+    "umsab": {
+      "accuracy": 0.33256616800920596,
+      "f1_macro": 0.16637881404720783,
+      "classification_report": {
+        "negativo": {
+          "precision": 0.33256616800920596,
+          "recall": 1.0,
+          "f1-score": 0.4991364421416235,
+          "support": 289.0
+        },
+        "neutro": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 290.0
+        },
+        "positivo": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 290.0
+        },
+        "accuracy": 0.33256616800920596,
+        "macro avg": {
+          "precision": 0.11085538933640199,
+          "recall": 0.3333333333333333,
+          "f1-score": 0.16637881404720783,
+          "support": 869.0
+        },
+        "weighted avg": {
+          "precision": 0.11060025610432742,
+          "recall": 0.33256616800920596,
+          "f1-score": 0.16599589387678848,
+          "support": 869.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          289,
+          0,
+          0
+        ],
+        [
+          290,
+          0,
+          0
+        ],
+        [
+          290,
+          0,
+          0
+        ]
+      ],
+      "label_order": [
+        "negativo",
+        "neutro",
+        "positivo"
+      ]
+    },
+    "b2w": {
+      "accuracy": 0.3333333333333333,
+      "f1_macro": 0.16666666666666666,
+      "classification_report": {
+        "negativo": {
+          "precision": 0.3333333333333333,
+          "recall": 1.0,
+          "f1-score": 0.5,
+          "support": 500.0
+        },
+        "neutro": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 500.0
+        },
+        "positivo": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 500.0
+        },
+        "accuracy": 0.3333333333333333,
+        "macro avg": {
+          "precision": 0.1111111111111111,
+          "recall": 0.3333333333333333,
+          "f1-score": 0.16666666666666666,
+          "support": 1500.0
+        },
+        "weighted avg": {
+          "precision": 0.1111111111111111,
+          "recall": 0.3333333333333333,
+          "f1-score": 0.16666666666666666,
+          "support": 1500.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          500,
+          0,
+          0
+        ],
+        [
+          500,
+          0,
+          0
+        ],
+        [
+          500,
+          0,
+          0
+        ]
+      ],
+      "label_order": [
+        "negativo",
+        "neutro",
+        "positivo"
+      ]
+    }
+  },
+  "dummy_note": "Classe majoritária do treino combinado (classes empatadas: 'negativo').",
+  "data_sources": [
+    {
+      "name": "UMSAB · recorte português (SentiBR / TweetSentBR)",
+      "url": "https://github.com/cardiffnlp/xlm-t",
+      "license": "Uso acadêmico; restrições dos datasets originais podem se aplicar.",
+      "use": "Treino, validação e teste (tweets sobre TV)."
+    },
+    {
+      "name": "B2W-Reviews01 (Americanas)",
+      "url": "https://github.com/americanas-tech/b2w-reviews01",
+      "license": "CC BY-NC-SA 4.0",
+      "use": "Treino, validação e teste (avaliações de produtos). Só texto e nota."
+    },
+    {
+      "name": "BERTimbau Base (neuralmind/bert-base-portuguese-cased)",
+      "url": "https://huggingface.co/neuralmind/bert-base-portuguese-cased",
+      "license": "MIT",
+      "use": "Modelo pré-treinado, ajustado pela equipe para três classes."
+    }
+  ],
+  "limitations": [
+    "A classe neutra é a mais difícil; no B2W ela vem da nota 3, que mistura opiniões mornas, mistas e ambíguas (rótulo ruidoso).",
+    "Ironia, sarcasmo e opiniões mistas continuam gerando erros.",
+    "B2W são avaliações de produtos de e-commerce; comentários de pequenos negócios locais (atendimento, ambiente) ainda são um domínio diferente.",
+    "O teste UMSAB é de tweets sobre TV, domínio distinto dos comentários de empresas.",
+    "O CSV fictício da livraria serve só como checagem de sanidade, não como métrica."
+  ],
+  "sanity_check": {
+    "file": "data/examples/teste_livraria_horizonte.csv",
+    "note": "Checagem de sanidade, não é métrica. Rótulos propostos — revisar pela equipe. Frases fictícias; não usadas em treino nem em avaliação.",
+    "rows": [
+      {
+        "id": "horizonte-teste-001",
+        "text": "O livro chegou antes do prazo e a embalagem estava impecável. Excelente compra!",
+        "proposed_label": "positivo",
+        "predictions": {
+          "baseline_v1": "negativo",
+          "baseline_combinado": "positivo",
+          "bertimbau": "positivo"
+        }
+      },
+      {
+        "id": "horizonte-teste-002",
+        "text": "Comprei há duas semanas e meu pedido ainda não foi entregue. Estou decepcionado.",
+        "proposed_label": "negativo",
+        "predictions": {
+          "baseline_v1": "neutro",
+          "baseline_combinado": "negativo",
+          "bertimbau": "negativo"
+        }
+      },
+      {
+        "id": "horizonte-teste-003",
+        "text": "A Livraria Horizonte fica na avenida principal, perto da praça.",
+        "proposed_label": "neutro",
+        "predictions": {
+          "baseline_v1": "neutro",
+          "baseline_combinado": "neutro",
+          "bertimbau": "neutro"
+        }
+      },
+      {
+        "id": "horizonte-teste-004",
+        "text": "Fui atendida com muita atenção e encontrei todos os livros que procurava. Adorei!",
+        "proposed_label": "positivo",
+        "predictions": {
+          "baseline_v1": "positivo",
+          "baseline_combinado": "positivo",
+          "bertimbau": "positivo"
+        }
+      },
+      {
+        "id": "horizonte-teste-005",
+        "text": "As páginas vieram rasgadas e a loja não respondeu à minha solicitação de troca.",
+        "proposed_label": "negativo",
+        "predictions": {
+          "baseline_v1": "negativo",
+          "baseline_combinado": "negativo",
+          "bertimbau": "negativo"
+        }
+      },
+      {
+        "id": "horizonte-teste-006",
+        "text": "Vocês trabalham com encomendas de livros importados?",
+        "proposed_label": "neutro",
+        "predictions": {
+          "baseline_v1": "neutro",
+          "baseline_combinado": "neutro",
+          "bertimbau": "neutro"
+        }
+      },
+      {
+        "id": "horizonte-teste-007",
+        "text": "Que capricho no pacote! O bilhete de agradecimento deixou minha tarde mais feliz.",
+        "proposed_label": "positivo",
+        "predictions": {
+          "baseline_v1": "positivo",
+          "baseline_combinado": "positivo",
+          "bertimbau": "positivo"
+        }
+      },
+      {
+        "id": "horizonte-teste-008",
+        "text": "O site cobrou duas vezes pela mesma compra. Preciso que resolvam esse problema.",
+        "proposed_label": "negativo",
+        "predictions": {
+          "baseline_v1": "neutro",
+          "baseline_combinado": "negativo",
+          "bertimbau": "negativo"
+        }
+      },
+      {
+        "id": "horizonte-teste-009",
+        "text": "A sessão de autógrafos está marcada para sábado, às quinze horas.",
+        "proposed_label": "neutro",
+        "predictions": {
+          "baseline_v1": "negativo",
+          "baseline_combinado": "negativo",
+          "bertimbau": "neutro"
+        }
+      },
+      {
+        "id": "horizonte-teste-010",
+        "text": "Recomendo demais! A equipe conhece os livros e deu sugestões muito boas.",
+        "proposed_label": "positivo",
+        "predictions": {
+          "baseline_v1": "negativo",
+          "baseline_combinado": "positivo",
+          "bertimbau": "positivo"
+        }
+      },
+      {
+        "id": "horizonte-teste-011",
+        "text": "Péssima experiência. Cancelaram meu pedido sem nenhuma explicação.",
+        "proposed_label": "negativo",
+        "predictions": {
+          "baseline_v1": "negativo",
+          "baseline_combinado": "negativo",
+          "bertimbau": "negativo"
+        }
+      },
+      {
+        "id": "horizonte-teste-012",
+        "text": "O catálogo de novembro inclui romances, biografias e livros infantis.",
+        "proposed_label": "neutro",
+        "predictions": {
+          "baseline_v1": "negativo",
+          "baseline_combinado": "negativo",
+          "bertimbau": "neutro"
+        }
+      },
+      {
+        "id": "horizonte-teste-013",
+        "text": "Minha filha ficou encantada com o espaço infantil. Foi uma visita maravilhosa!",
+        "proposed_label": "positivo",
+        "predictions": {
+          "baseline_v1": "positivo",
+          "baseline_combinado": "positivo",
+          "bertimbau": "positivo"
+        }
+      },
+      {
+        "id": "horizonte-teste-014",
+        "text": "O vendedor foi grosseiro quando pedi informações. Não pretendo voltar.",
+        "proposed_label": "negativo",
+        "predictions": {
+          "baseline_v1": "negativo",
+          "baseline_combinado": "negativo",
+          "bertimbau": "negativo"
+        }
+      },
+      {
+        "id": "horizonte-teste-015",
+        "text": "Qual é o prazo para retirar uma encomenda na loja?",
+        "proposed_label": "neutro",
+        "predictions": {
+          "baseline_v1": "neutro",
+          "baseline_combinado": "neutro",
+          "bertimbau": "neutro"
+        }
+      },
+      {
+        "id": "horizonte-teste-016",
+        "text": "A troca foi simples e resolveram tudo no mesmo dia. Muito obrigada pela atenção!",
+        "proposed_label": "positivo",
+        "predictions": {
+          "baseline_v1": "negativo",
+          "baseline_combinado": "positivo",
+          "bertimbau": "neutro"
+        }
+      },
+      {
+        "id": "horizonte-teste-017",
+        "text": "A edição recebida era diferente da anunciada. Fiquei bastante insatisfeito.",
+        "proposed_label": "negativo",
+        "predictions": {
+          "baseline_v1": "positivo",
+          "baseline_combinado": "negativo",
+          "bertimbau": "negativo"
+        }
+      },
+      {
+        "id": "horizonte-teste-018",
+        "text": "A loja informou que haverá retirada de pedidos no balcão durante o feriado.",
+        "proposed_label": "neutro",
+        "predictions": {
+          "baseline_v1": "negativo",
+          "baseline_combinado": "negativo",
+          "bertimbau": "neutro"
+        }
+      },
+      {
+        "id": "horizonte-teste-019",
+        "text": "Ambiente tranquilo, ótimos títulos e preços justos. Já quero voltar!",
+        "proposed_label": "positivo",
+        "predictions": {
+          "baseline_v1": "neutro",
+          "baseline_combinado": "positivo",
+          "bertimbau": "positivo"
+        }
+      },
+      {
+        "id": "horizonte-teste-020",
+        "text": "Esperei quase uma hora e ninguém conseguiu localizar minha reserva. Foi frustrante.",
+        "proposed_label": "negativo",
+        "predictions": {
+          "baseline_v1": "negativo",
+          "baseline_combinado": "positivo",
+          "bertimbau": "negativo"
+        }
+      },
+      {
+        "id": "horizonte-teste-021",
+        "text": "O número do pedido está no comprovante enviado por e-mail.",
+        "proposed_label": "neutro",
+        "predictions": {
+          "baseline_v1": "negativo",
+          "baseline_combinado": "negativo",
+          "bertimbau": "neutro"
+        }
+      },
+      {
+        "id": "horizonte-teste-022",
+        "text": "A seleção de poesia é incrível. Saí muito satisfeito com minhas escolhas!",
+        "proposed_label": "positivo",
+        "predictions": {
+          "baseline_v1": "positivo",
+          "baseline_combinado": "positivo",
+          "bertimbau": "positivo"
+        }
+      },
+      {
+        "id": "horizonte-teste-023",
+        "text": "A capa veio amassada e o atendimento não ofereceu nenhuma solução. Horrível.",
+        "proposed_label": "negativo",
+        "predictions": {
+          "baseline_v1": "negativo",
+          "baseline_combinado": "negativo",
+          "bertimbau": "negativo"
+        }
+      },
+      {
+        "id": "horizonte-teste-024",
+        "text": "Vocês disponibilizam uma lista dos títulos em estoque?",
+        "proposed_label": "neutro",
+        "predictions": {
+          "baseline_v1": "neutro",
+          "baseline_combinado": "neutro",
+          "bertimbau": "neutro"
+        }
+      }
+    ]
+  }
+}
