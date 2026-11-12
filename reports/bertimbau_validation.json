@@ -1,0 +1,154 @@
+{
+  "model_id": "bertimbau-b2w-umsab-cbd682b00250",
+  "model_name": "BERTimbau Base ajustado (UMSAB + B2W)",
+  "base_model": "neuralmind/bert-base-portuguese-cased",
+  "base_revision": "94d69c95f98f7d5b2a8700c420230ae10def0baa",
+  "base_license": "MIT",
+  "dataset": "UMSAB português (TweetSentBR) + B2W-Reviews01",
+  "source_url": "https://huggingface.co/neuralmind/bert-base-portuguese-cased",
+  "training_code_sha256": "42511007e5362d9eb94dc8e6c69ba4ec29789df81b4ef244e78d9727a487a90c",
+  "trained_at": "2026-11-12T03:30:23.756645+00:00",
+  "evaluation_split": "validation",
+  "test_evaluated": false,
+  "seed": 42,
+  "configuration": {
+    "max_length": 128,
+    "learning_rate": 2e-05,
+    "epochs": 3,
+    "per_device_batch": 8,
+    "gradient_accumulation": 2,
+    "effective_batch": 16,
+    "warmup_ratio": 0.1,
+    "weight_decay": 0.01,
+    "seed": 42,
+    "selection": "Maior F1 macro na validação combinada (UMSAB + B2W)",
+    "text_preparation": "prepare_text: NFC, URL e @usuário substituídos; acentos, pontuação, negações e emojis preservados",
+    "precision": "fp32 (GPU Pascal sem tensor cores)"
+  },
+  "limit": null,
+  "best_epoch": 3,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.761854231578079,
+      "validation_accuracy": 0.7219950940310711,
+      "validation_f1_macro": 0.7140031655413356,
+      "seconds": 425.5
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.5268634716183088,
+      "validation_accuracy": 0.7228127555192151,
+      "validation_f1_macro": 0.7241665933025837,
+      "seconds": 403.3
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.39160552710990454,
+      "validation_accuracy": 0.7301717089125103,
+      "validation_f1_macro": 0.7302989546563333,
+      "seconds": 367.7
+    }
+  ],
+  "training_seconds": 1203.7,
+  "hardware": {
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce GTX 1050 Ti",
+    "cpu": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+    "os": "Windows-11-10.0.26300-SP0"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "torch": "2.7.1+cu118",
+    "transformers": "4.57.6",
+    "cuda": "11.8"
+  },
+  "data_manifest": "reports/dataset_manifest_combinado.json",
+  "data_hashes": {
+    "train": "fd11317eb2cb2964d1567e8768b525438aaac7812cef7bb09f39db2add701f4d",
+    "validation": "a76f431b79d90f02b120902d395e280568736a20d0e682618484527cecd1d432"
+  },
+  "samples": {
+    "train": 7839,
+    "validation": 1223,
+    "test_reserved": 2369
+  },
+  "label_order": [
+    "negativo",
+    "neutro",
+    "positivo"
+  ],
+  "files": {
+    "config.json": "250d533a6fc746c77f5fc59cc9ee809bc198f1c8d310e49fa3ff6c37f5d68d96",
+    "model.safetensors": "b3350d31b925a825ac572bdeabcadb929303daf86fe2e6b29e1001dc245e3b52",
+    "tokenizer.json": "dbd0e62fcd673e7cc8fa730ad9998fc9e5e53aeb1cde1db4d14450eb458316c3",
+    "tokenizer_config.json": "7525d84e2d59af28db08243599eb1da698db5f415be9fc1f5a41332d27be405b",
+    "special_tokens_map.json": "3c3507f36dff57bce437223db3b3081d1e2b52ec3e56ee55438193ecb2c94dd6",
+    "vocab.txt": "69c28584c67a0e5018f85ca734aa272cc38e26b5dd0d33fffa28059299f21707"
+  },
+  "metrics": {
+    "accuracy": 0.7301717089125103,
+    "f1_macro": 0.7302989546563333,
+    "classification_report": {
+      "negativo": {
+        "precision": 0.8024691358024691,
+        "recall": 0.7965686274509803,
+        "f1-score": 0.7995079950799509,
+        "support": 408.0
+      },
+      "neutro": {
+        "precision": 0.624390243902439,
+        "recall": 0.628992628992629,
+        "f1-score": 0.6266829865361077,
+        "support": 407.0
+      },
+      "positivo": {
+        "precision": 0.7647058823529411,
+        "recall": 0.7647058823529411,
+        "f1-score": 0.7647058823529411,
+        "support": 408.0
+      },
+      "accuracy": 0.7301717089125103,
+      "macro avg": {
+        "precision": 0.7305217540192831,
+        "recall": 0.7300890462655169,
+        "f1-score": 0.7302989546563333,
+        "support": 1223.0
+      },
+      "weighted avg": {
+        "precision": 0.7306085336677842,
+        "recall": 0.7301717089125103,
+        "f1-score": 0.7303836774430219,
+        "support": 1223.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        325,
+        71,
+        12
+      ],
+      [
+        67,
+        256,
+        84
+      ],
+      [
+        13,
+        83,
+        312
+      ]
+    ],
+    "label_order": [
+      "negativo",
+      "neutro",
+      "positivo"
+    ]
+  },
+  "limitations": [
+    "Métricas desta seção são de validação; o teste é consultado uma única vez em reports/comparacao_modelos.json.",
+    "Nota 3 do B2W tratada como neutro: aproximação ruidosa da classe neutra.",
+    "Ironia, negação, opiniões mistas e mudança de domínio continuam gerando erros.",
+    "Exemplos fictícios do painel não foram usados no treinamento nem nas métricas."
+  ]
+}
