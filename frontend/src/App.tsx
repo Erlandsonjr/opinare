@@ -317,7 +317,7 @@ export default function App() {
               </p>
             </div>
             <div className="heading-actions">
-              <SentenceTester />
+              <SentenceTester modelReady={Boolean(model?.ready)} />
               <button
                 ref={openButton}
                 className="button primary"
@@ -1462,6 +1462,7 @@ function ComparisonResults({ model }: { model: ModelInfo }) {
           <li key={source.url}>
             <a href={source.url} target="_blank" rel="noreferrer">
               {source.name}
+              <span className="sr-only"> (abre em nova aba)</span>
             </a>{" "}
             · {source.license} · {source.use}
           </li>

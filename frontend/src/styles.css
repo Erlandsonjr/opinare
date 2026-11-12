@@ -1788,3 +1788,11 @@ thead th {
     margin: 0 16px;
   }
 }
+
+/* Header actions and active-model note on narrow screens. */
+.active-model-note .model-tag { display: inline-flex; align-items: center; gap: 6px; }
+.active-model-note span { overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .heading-actions { flex-direction: column; }
+  .heading-actions .button { width: 100%; justify-content: center; }
+}

@@ -29,6 +29,7 @@ function ResultCard({ title, value }: { title: string; value: AnalysisModel }) {
                 value={value.scores![label]}
                 max={1}
                 aria-label={`Pontuação ${names[label]}`}
+                aria-valuetext={`${(value.scores![label] * 100).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%`}
               />
             </div>
           ))}
@@ -40,7 +41,11 @@ function ResultCard({ title, value }: { title: string; value: AnalysisModel }) {
   );
 }
 
-export default function SentenceTester() {
+export default function SentenceTester({
+  modelReady,
+}: {
+  modelReady: boolean;
+}) {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
@@ -49,6 +54,7 @@ export default function SentenceTester() {
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLButtonElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
+  const request = useRef<AbortController | null>(null);
   useEffect(() => {
     if (open) {
       dialog.current?.showModal();
@@ -56,14 +62,16 @@ export default function SentenceTester() {
     } else dialog.current?.close();
   }, [open]);
   function close() {
-    if (!loading) {
-      setOpen(false);
-      opener.current?.focus();
-    }
+    // Analysis is read-only, so a pending request can be abandoned safely.
+    request.current?.abort();
+    setOpen(false);
+    opener.current?.focus();
   }
   async function analyze(event: React.FormEvent) {
     event.preventDefault();
     if (!text.trim() || text.length > 5000 || loading) return;
+    const controller = new AbortController();
+    request.current = controller;
     setLoading(true);
     setError("");
     setResult(null);
@@ -73,13 +81,16 @@ export default function SentenceTester() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text }),
+          signal: controller.signal,
         }),
       );
     } catch (issue) {
-      setError(
-        issue instanceof Error ? issue.message : "Falha ao analisar a frase.",
-      );
+      if (!controller.signal.aborted)
+        setError(
+          issue instanceof Error ? issue.message : "Falha ao analisar a frase.",
+        );
     } finally {
+      if (request.current === controller) request.current = null;
       setLoading(false);
     }
   }
@@ -89,6 +100,8 @@ export default function SentenceTester() {
         ref={opener}
         className="button secondary"
         onClick={() => setOpen(true)}
+        disabled={!modelReady}
+        title={modelReady ? undefined : "O modelo ainda não está disponível."}
       >
         <FlaskConical size={17} />
         Testar uma frase
@@ -111,7 +124,6 @@ export default function SentenceTester() {
             className="dialog-close"
             aria-label="Fechar análise"
             onClick={close}
-            disabled={loading}
           >
             <X size={20} />
           </button>
@@ -133,11 +145,13 @@ export default function SentenceTester() {
               onChange={(event) => {
                 setText(event.target.value);
                 setResult(null);
+                setError("");
               }}
+              aria-describedby="analysis-counter-info"
               rows={5}
               disabled={loading}
             />
-            <div className="analysis-counter">
+            <div id="analysis-counter-info" className="analysis-counter">
               <span>
                 {!text.trim()
                   ? "Digite uma frase para analisar."
@@ -161,6 +175,11 @@ export default function SentenceTester() {
               {error}
             </div>
           )}
+          <div role="status" aria-live="polite" className="sr-only">
+            {result
+              ? `Análise concluída. ${result.active.name}: ${names[result.active.label]}.`
+              : ""}
+          </div>
           {result && (
             <div className="analysis-results">
               <div className="analysis-grid">
