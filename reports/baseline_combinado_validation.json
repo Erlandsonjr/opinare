@@ -1,0 +1,175 @@
+{
+  "model_id": "tfidf-logreg-b2w-umsab-4b3f8b80c163",
+  "model_name": "TF-IDF + regressão logística (UMSAB + B2W)",
+  "dataset": "UMSAB português (TweetSentBR) + B2W-Reviews01",
+  "source_url": "https://github.com/americanas-tech/b2w-reviews01",
+  "training_code_sha256": "5b919440c36477911faaa3b890eccbc0f0b19ac58a8ec4bc7606e549f11a8b97",
+  "evaluated_at": "2026-11-12T03:11:50.071362+00:00",
+  "evaluation_split": "validation",
+  "test_evaluated": false,
+  "seed": 42,
+  "configuration": {
+    "word_ngrams": [
+      1,
+      2
+    ],
+    "char_ngrams": [
+      3,
+      5
+    ],
+    "min_df": 2,
+    "C": 2.0,
+    "class_weight": "balanced",
+    "tuning": "Nenhuma busca de hiperparâmetros; mesmo pipeline do baseline v1"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "scikit_learn": "1.9.1"
+  },
+  "data_manifest": "reports/dataset_manifest_combinado.json",
+  "data_hashes": {
+    "train": "fd11317eb2cb2964d1567e8768b525438aaac7812cef7bb09f39db2add701f4d",
+    "validation": "a76f431b79d90f02b120902d395e280568736a20d0e682618484527cecd1d432"
+  },
+  "samples": {
+    "train": 7839,
+    "validation": 1223,
+    "test_reserved": 2369
+  },
+  "class_distribution": {
+    "train": {
+      "negativo": 2613,
+      "neutro": 2613,
+      "positivo": 2613
+    },
+    "validation": {
+      "negativo": 408,
+      "neutro": 407,
+      "positivo": 408
+    }
+  },
+  "metrics": {
+    "accuracy": 0.6704824202780049,
+    "f1_macro": 0.6685945748866176,
+    "classification_report": {
+      "negativo": {
+        "precision": 0.7178329571106095,
+        "recall": 0.7794117647058824,
+        "f1-score": 0.7473560517038778,
+        "support": 408.0
+      },
+      "neutro": {
+        "precision": 0.5618556701030928,
+        "recall": 0.5356265356265356,
+        "f1-score": 0.5484276729559748,
+        "support": 407.0
+      },
+      "positivo": {
+        "precision": 0.7244897959183674,
+        "recall": 0.696078431372549,
+        "f1-score": 0.71,
+        "support": 408.0
+      },
+      "accuracy": 0.6704824202780049,
+      "macro avg": {
+        "precision": 0.6680594743773565,
+        "recall": 0.6703722439016557,
+        "f1-score": 0.6685945748866176,
+        "support": 1223.0
+      },
+      "weighted avg": {
+        "precision": 0.6681463131380061,
+        "recall": 0.6704824202780049,
+        "f1-score": 0.6686928307344758,
+        "support": 1223.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        318,
+        73,
+        17
+      ],
+      [
+        98,
+        218,
+        91
+      ],
+      [
+        27,
+        97,
+        284
+      ]
+    ],
+    "label_order": [
+      "negativo",
+      "neutro",
+      "positivo"
+    ]
+  },
+  "dummy_metrics": {
+    "accuracy": 0.3336058871627146,
+    "f1_macro": 0.16676885346413242,
+    "classification_report": {
+      "negativo": {
+        "precision": 0.3336058871627146,
+        "recall": 1.0,
+        "f1-score": 0.5003065603923973,
+        "support": 408.0
+      },
+      "neutro": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 407.0
+      },
+      "positivo": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 408.0
+      },
+      "accuracy": 0.3336058871627146,
+      "macro avg": {
+        "precision": 0.11120196238757153,
+        "recall": 0.3333333333333333,
+        "f1-score": 0.16676885346413242,
+        "support": 1223.0
+      },
+      "weighted avg": {
+        "precision": 0.11129288794962187,
+        "recall": 0.3336058871627146,
+        "f1-score": 0.16690521393303195,
+        "support": 1223.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        408,
+        0,
+        0
+      ],
+      [
+        407,
+        0,
+        0
+      ],
+      [
+        408,
+        0,
+        0
+      ]
+    ],
+    "label_order": [
+      "negativo",
+      "neutro",
+      "positivo"
+    ]
+  },
+  "limitations": [
+    "Métricas de validação; o teste é consultado uma única vez na comparação final.",
+    "Nota 3 do B2W tratada como neutro: aproximação ruidosa da classe neutra.",
+    "Ironia, negação, opiniões mistas e mudança de domínio podem gerar erros.",
+    "Exemplos fictícios do painel não foram usados no treinamento nem nas métricas."
+  ]
+}

@@ -141,7 +141,10 @@ def pipeline():
 
 def evaluate(model, data):
     texts, expected = zip(*data, strict=True)
-    predicted = model.predict(list(texts))
+    return evaluate_predictions(list(expected), list(model.predict(list(texts))))
+
+
+def evaluate_predictions(expected, predicted):
     return {
         "accuracy": accuracy_score(expected, predicted),
         "f1_macro": f1_score(expected, predicted, labels=list(LABELS), average="macro"),

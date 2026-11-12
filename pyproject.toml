@@ -9,6 +9,32 @@ dependencies = [
   "python-multipart>=0.0.20,<1",
   "scikit-learn>=1.6,<2",
   "joblib>=1.4,<2",
+  "transformers>=4.50,<5",
+]
+
+[project.optional-dependencies]
+# PyTorch is optional: without it the app runs on the TF-IDF baseline.
+# cpu: presentation laptops (small download). cu118: training on the Pascal GPU (sm_61).
+cpu = ["torch>=2.6,<2.8"]
+cu118 = ["torch>=2.6,<2.8"]
+
+[tool.uv]
+conflicts = [[{ extra = "cpu" }, { extra = "cu118" }]]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu118"
+url = "https://download.pytorch.org/whl/cu118"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-cu118", extra = "cu118" },
 ]
 
 [dependency-groups]

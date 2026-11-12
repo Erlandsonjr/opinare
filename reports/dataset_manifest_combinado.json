@@ -1,0 +1,125 @@
+{
+  "description": "Divisões usadas na comparação final de modelos.",
+  "seed": 42,
+  "text_key": "prepare_text(texto).casefold()",
+  "disjoint_by_normalized_text": true,
+  "umsab": {
+    "repository": "https://github.com/cardiffnlp/xlm-t",
+    "revision": "874214d64d96599eb869a033c22ec2cc57d19256",
+    "usage": "Uso acadêmico local; restrições dos datasets originais podem se aplicar.",
+    "splits": {
+      "train": {
+        "size": 1839,
+        "classes": {
+          "negativo": 613,
+          "neutro": 613,
+          "positivo": 613
+        },
+        "sha256": "2b75ef7c1ea9903cfc1e44f5687c54057303dfd16b6dad8b3a6207ae1025e045"
+      },
+      "validation": {
+        "size": 323,
+        "classes": {
+          "negativo": 108,
+          "neutro": 107,
+          "positivo": 108
+        },
+        "sha256": "046f3b6c0b3f69afa4b866b0762448978a02c56fc6326bc720e8380bd76500e4"
+      },
+      "test": {
+        "size": 869,
+        "classes": {
+          "negativo": 289,
+          "neutro": 290,
+          "positivo": 290
+        },
+        "sha256": "2442c567ee0de2405640cb2f54861eaca1dd4e21a6789dfa3a0c60db6c532d3d"
+      }
+    }
+  },
+  "b2w": {
+    "repository": "https://github.com/americanas-tech/b2w-reviews01",
+    "revision": "4639429ec698d7821fc99a0bc665fa213d9fcd5a",
+    "file": "B2W-Reviews01.csv",
+    "file_sha256": "821fb0bf9f7230b0fba4e4f9fadd75a66d1a9ff0b1657810791d33007eb2ab38",
+    "license": "CC BY-NC-SA 4.0",
+    "columns_used": [
+      "review_text",
+      "overall_rating"
+    ],
+    "columns_discarded": "Todas as demais, incluindo perfil do avaliador (RNF05).",
+    "rating_map": {
+      "1-2": "negativo",
+      "3": "neutro",
+      "4-5": "positivo"
+    },
+    "min_chars": 10,
+    "per_class": {
+      "test": 500,
+      "validation": 300,
+      "train": 2000
+    },
+    "preparation": {
+      "rows": 132373,
+      "empty_or_short": 3279,
+      "conflicting_duplicate_groups": 24,
+      "duplicates_merged": 2399,
+      "removed_overlap_umsab_or_examples": 0,
+      "available_unique": {
+        "positivo": 78241,
+        "negativo": 32592,
+        "neutro": 15838
+      }
+    },
+    "splits": {
+      "test": {
+        "size": 1500,
+        "classes": {
+          "negativo": 500,
+          "neutro": 500,
+          "positivo": 500
+        },
+        "sha256": "1048ae3caeb55f2c0adbe664dce53b4f49135354c829293c1bdef3501b931081"
+      },
+      "validation": {
+        "size": 900,
+        "classes": {
+          "negativo": 300,
+          "neutro": 300,
+          "positivo": 300
+        },
+        "sha256": "f79e302fad75afd2b144fc67dd8794a126205170646fe616d13e62e1d3e7b835"
+      },
+      "train": {
+        "size": 6000,
+        "classes": {
+          "negativo": 2000,
+          "neutro": 2000,
+          "positivo": 2000
+        },
+        "sha256": "025baed69106466d5419646f76d303439bbbc6ce933822192c465ef153dc1ed5"
+      }
+    }
+  },
+  "combined": {
+    "train": {
+      "size": 7839,
+      "classes": {
+        "negativo": 2613,
+        "neutro": 2613,
+        "positivo": 2613
+      },
+      "sha256": "fd11317eb2cb2964d1567e8768b525438aaac7812cef7bb09f39db2add701f4d"
+    },
+    "validation": {
+      "size": 1223,
+      "classes": {
+        "negativo": 408,
+        "neutro": 407,
+        "positivo": 408
+      },
+      "sha256": "a76f431b79d90f02b120902d395e280568736a20d0e682618484527cecd1d432"
+    }
+  },
+  "excluded_from_training": "CSVs de data/examples (demonstração e livraria fictícia)."
+}

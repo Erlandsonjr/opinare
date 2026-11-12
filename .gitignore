@@ -16,3 +16,5 @@ output/
 .playwright-cli/
 *.log
 *.tsbuildinfo
+artifacts/bertimbau-sentimento/
+artifacts/*.tmp/
